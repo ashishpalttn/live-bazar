@@ -1,9 +1,9 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
 app.use(express.json());
 
-app.get("/hello", (req, res) => {
+app.get("/", (req, res) => {
   res.json({ message: "Hello from Lambda!" });
 });
 // Run server only when executed directly (not in Lambda)
