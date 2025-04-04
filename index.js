@@ -8,7 +8,7 @@ app.get("/hello", (req, res) => {
 });
 // Run server only when executed directly (not in Lambda)
 if (require.main === module) {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 
