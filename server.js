@@ -11,4 +11,4 @@ app.get('/home-page', (req, res) => {
   res.json({ message: `Hello from Lambda Home page !` });
 });
 
-module.exports = app;
+module.exports = app; 
