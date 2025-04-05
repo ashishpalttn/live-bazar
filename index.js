@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from Lambda!" });
+  res.json({ message: "Hello from Lambda updated!" });
 });
 // Run server only when executed directly (not in Lambda)
 if (require.main === module) {
