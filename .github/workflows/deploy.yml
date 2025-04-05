@@ -23,7 +23,7 @@ jobs:
       - name: Prepare Lambda package
         run: |
           mkdir -p lambda-package
-          cp -r index.js package.json node_modules lambda-package/
+          rsync -av --progress . lambda-package --exclude lambda-package --exclude .git --exclude .github
           cd lambda-package
           zip -r ../function.zip .
 
