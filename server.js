@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.json());
 console.log("✅ This is the updated Lambda version deployed at", new Date().toISOString());
-app.get("/", (req, res) => {
+app.get("/home-page", (req, res) => {
   const {query_input} = req.query
   res.json({ message: `Hello from Lambda modified_4! ${query_input}` });
 });
