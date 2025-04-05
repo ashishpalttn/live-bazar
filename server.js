@@ -4,13 +4,11 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  const { query_input } = req.query;
-  res.json({ message: `Hello from Lambda! root end point ${query_input}` });
+  res.json({ message: `Hello from Lambda! root end point` });
 });
 
 app.get('/home-page', (req, res) => {
-  const { query_input } = req.query;
-  res.json({ message: `Hello from Lambda Home page! ${query_input}` });
+  res.json({ message: `Hello from Lambda Home page!` });
 });
 
 module.exports = app;
