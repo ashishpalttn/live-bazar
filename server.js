@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/home-page', (req, res) => {
-  res.json({ message: `Hello from Lambda Home page!` });
+  res.json({ message: `Hello from Lambda Home page !` });
 });
 
 module.exports = app;
