@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from Lambda modified_1!" });
+  res.json({ message: "Hello from Lambda modified_3!" });
 });
 // Run server only when executed directly (not in Lambda)
 // Run server only when executed directly (not in Lambda)
