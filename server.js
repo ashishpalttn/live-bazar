@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 console.log("✅ This is the updated Lambda version deployed at", new Date().toISOString());
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from Lambda modified_3!" });
+  res.json({ message: "Hello from Lambda modified_4!" });
 });
 // Run server only when executed directly (not in Lambda)
 // Run server only when executed directly (not in Lambda)
