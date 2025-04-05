@@ -17,15 +17,17 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Clean install production dependencies
-        run: npm ci --only=production
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Prepare Lambda package
+      - name: Create Deployment Package
         run: |
-          mkdir -p lambda-package
-          cp -r index.js package.json node_modules lambda-package/
-          cd lambda-package
+          mkdir lambda
+          cp index.js lambda/
+          cp -r node_modules lambda/
+          cd lambda
           zip -r ../function.zip .
+          cd ..
 
       - name: Deploy to AWS Lambda
         uses: appleboy/lambda-action@master
