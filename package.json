@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "lambda.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node src/server.js"
     },
     "dependencies": {
         "@vendia/serverless-express": "^4.12.6",
