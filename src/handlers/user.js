@@ -1,6 +1,7 @@
 const userService = require('../services/userService');
 
 exports.handler = async (event) => {
+  console.log("Incoming request:", JSON.stringify(event, null, 2));
   const { httpMethod, pathParameters, body } = event;
 
   try {

@@ -49,7 +49,7 @@ resources:
 
 functions:
   userApi:
-    handler: src/handlers/user.handler
+    handler: ../src/handlers/user.handler
     events:
       - http:
           path: user
@@ -59,7 +59,7 @@ functions:
           method: get
 
   productApi:
-    handler: src/handlers/product.handler
+    handler: ../src/handlers/product.handler
     events:
       - http:
           path: product
@@ -69,7 +69,7 @@ functions:
           method: get
 
   orderApi:
-    handler: src/handlers/order.handler
+    handler: ../src/handlers/order.handler
     events:
       - http:
           path: order
@@ -77,3 +77,9 @@ functions:
       - http:
           path: order/{id}
           method: get
+
+package:
+  excludeDevDependencies: true
+
+plugins:
+  - serverless-offline

@@ -3,14 +3,19 @@
     "version": "1.0.0",
     "main": "lambda.js",
     "scripts": {
-        "start": "node src/server.js"
+        "start": "node src/server.js",
+        "start:offline": "serverless offline --stage dev --config config/serverless.yml",
+        "test": "jest --coverage",
+        "debug": "node --inspect-brk node_modules/.bin/serverless offline --config config/serverless.yml"
     },
     "dependencies": {
         "@vendia/serverless-express": "^4.12.6",
         "aws-serverless-express": "^3.4.0",
-        "express": "^4.21.2"
+        "express": "^4.21.2",
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
+        "aws-sdk": "^2.1692.0",
         "serverless-offline": "^14.4.0"
     }
 }
