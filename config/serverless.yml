@@ -1,0 +1,79 @@
+service: live-bazar-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    DYNAMODB_USER_TABLE: UserTable
+    DYNAMODB_PRODUCT_TABLE: ProductTable
+    DYNAMODB_ORDER_TABLE: OrderTable
+
+resources:
+  Resources:
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserTable
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    ProductTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ProductTable
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    OrderTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: OrderTable
+        AttributeDefinitions:
+          - AttributeName: orderId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: orderId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+functions:
+  userApi:
+    handler: src/handlers/user.handler
+    events:
+      - http:
+          path: user
+          method: post
+      - http:
+          path: user/{id}
+          method: get
+
+  productApi:
+    handler: src/handlers/product.handler
+    events:
+      - http:
+          path: product
+          method: post
+      - http:
+          path: product/{id}
+          method: get
+
+  orderApi:
+    handler: src/handlers/order.handler
+    events:
+      - http:
+          path: order
+          method: post
+      - http:
+          path: order/{id}
+          method: get

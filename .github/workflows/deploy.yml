@@ -17,22 +17,11 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Clean install production dependencies
-        run: npm ci --only=production
+      - name: Install Serverless Framework
+        run: npm install -g serverless
 
-      - name: Prepare Lambda package
-        run: |
-          mkdir -p lambda-package
-          rsync -av --progress . lambda-package --exclude lambda-package --exclude .git --exclude .github
-          cd lambda-package
-          zip -r ../function.zip .
-
-      - name: Deploy to AWS Lambda
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ap-south-1
-          function_name: my-lambda-api
-          zip_file: function.zip
-          publish: true
+      - name: Deploy Application
+        run: serverless deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
