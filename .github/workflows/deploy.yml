@@ -47,6 +47,7 @@ jobs:
         run: |
           aws sts get-caller-identity || { echo "Error: Invalid AWS credentials."; exit 1; }
 
+          
       - name: Deploy Application
         run: serverless deploy --config config/serverless.yml --debug # Specify the path to serverless.yml
         env:
