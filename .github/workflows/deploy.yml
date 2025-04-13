@@ -29,7 +29,8 @@ jobs:
         run: echo "Using Serverless Framework access key"
 
       - name: Verify Serverless Framework Version
-        run: serverless --version
+        run: npx serverless --version
+        # Use npx to ensure the locally installed serverless framework is used
 
       - name: Validate Serverless Access Key
         run: |
