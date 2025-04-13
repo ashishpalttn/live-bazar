@@ -17,11 +17,9 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Install Serverless Framework
-        run: npm install -g serverless
-
-      - name: Install Serverless Offline Plugin
-        run: npm install -g serverless-offline
+      - name: Install Dependencies
+        run: npm install
+        # This ensures all dependencies, including serverless-offline, are installed locally
 
       - name: Authenticate with Serverless Framework
         env:
@@ -61,7 +59,8 @@ jobs:
           env
 
       - name: Deploy Application
-        run: serverless deploy --config config/serverless.yml --debug
+        run: npx serverless deploy --config config/serverless.yml --debug
+        # Use npx to ensure the locally installed serverless framework and plugins are used
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
