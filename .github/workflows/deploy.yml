@@ -27,8 +27,11 @@ jobs:
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: echo "Using Serverless Framework access key"
 
+      - name: Verify Serverless Framework Version
+        run: serverless --version
+
       - name: Deploy Application
-        run: serverless deploy --config config/serverless.yml # Specify the path to serverless.yml
+        run: serverless deploy --config config/serverless.yml --debug # Specify the path to serverless.yml
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
