@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "22"
 
       - name: Install Serverless Framework
         run: npm install -g serverless
@@ -29,6 +29,17 @@ jobs:
 
       - name: Verify Serverless Framework Version
         run: serverless --version
+
+      - name: Validate Serverless Access Key
+        run: |
+          if [ -z "${{ secrets.SERVERLESS_ACCESS_KEY }}" ]; then
+            echo "Error: SERVERLESS_ACCESS_KEY is not set."
+            exit 1
+          fi
+
+      - name: Validate AWS Credentials
+        run: |
+          aws sts get-caller-identity || { echo "Error: Invalid AWS credentials."; exit 1; }
 
       - name: Deploy Application
         run: serverless deploy --config config/serverless.yml --debug # Specify the path to serverless.yml
