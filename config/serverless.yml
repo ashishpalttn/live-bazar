@@ -2,8 +2,8 @@ service: live-bazar-api
 
 provider:
   name: aws
-  runtime: nodejs18.x
-  region: us-east-1
+  runtime: nodejs22.x
+  region: ap-south-1
   environment:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: ProductTable
