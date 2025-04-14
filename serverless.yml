@@ -4,10 +4,20 @@ provider:
   name: aws
   runtime: nodejs22.x
   region: ap-south-1
+  deploymentBucket:
+    name: live-bazar-deployment-bucket-ap-south-1-e90dff22-4496
+    blockPublicAccess: true
+    serverSideEncryption: AES256
+  disableDefaultOutputExportNames: true
+  disableDefaultOutputExports: true
+  useDotenv: false
+  disableDefaultIamRoleStatements: true
   environment:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: ProductTable
     DYNAMODB_ORDER_TABLE: OrderTable
+
+configValidationMode: off # Disable validation to avoid SSM-related issues
 
 resources:
   Resources:
@@ -49,7 +59,7 @@ resources:
 
 functions:
   userApi:
-    handler: ../src/handlers/user.handler
+    handler: src/handlers/user.handler
     events:
       - http:
           path: user
@@ -59,7 +69,7 @@ functions:
           method: get
 
   productApi:
-    handler: ../src/handlers/product.handler
+    handler: src/handlers/product.handler
     events:
       - http:
           path: product
@@ -69,7 +79,7 @@ functions:
           method: get
 
   orderApi:
-    handler: ../src/handlers/order.handler
+    handler: src/handlers/order.handler
     events:
       - http:
           path: order
