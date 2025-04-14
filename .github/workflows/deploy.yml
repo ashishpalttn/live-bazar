@@ -55,12 +55,12 @@ jobs:
       - name: Print Debug Information
         run: |
           echo "Serverless Configuration:"
-          cat config/serverless.yml
+          cat serverless.yml
           echo "Environment Variables:"
           env
 
       - name: Deploy Application
-        run: npx serverless deploy --config config/serverless.yml --debug
+        run: npx serverless deploy --config serverless.yml --debug
         # Use npx to ensure the locally installed serverless framework and plugins are used
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
