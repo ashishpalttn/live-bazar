@@ -2,7 +2,7 @@ service: live-bazar-api
 
 provider:
   name: aws
-  runtime: nodejs22.x
+  runtime: nodejs18.x
   region: ap-south-1
   # Remove the deploymentBucket configuration
   # deploymentBucket:
@@ -92,6 +92,8 @@ functions:
 package:
   individually: true
   excludeDevDependencies: true
-
+  exclude:
+plugins:de_modules/aws-sdk/**
+  - serverless-offline
 plugins:
   - serverless-offline
