@@ -90,6 +90,7 @@ functions:
           method: get
 
 package:
+  individually: true
   excludeDevDependencies: true
 
 plugins:
