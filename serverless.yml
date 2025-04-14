@@ -92,8 +92,9 @@ functions:
 package:
   individually: true
   excludeDevDependencies: true
-  exclude:
-    - node_modules/aws-sdk/**
+  # Remove the aws-sdk exclusion
+  # exclude:
+  #   - node_modules/aws-sdk/**
 
 plugins:
   - serverless-offline
