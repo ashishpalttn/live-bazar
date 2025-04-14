@@ -4,10 +4,11 @@ provider:
   name: aws
   runtime: nodejs22.x
   region: ap-south-1
-  deploymentBucket:
-    name: live-bazar-deployment-bucket-ap-south-1-e90dff22-4496
-    blockPublicAccess: true
-    serverSideEncryption: AES256
+  # Remove the deploymentBucket configuration
+  # deploymentBucket:
+  #   name: live-bazar-deployment-bucket-ap-south-1-e90dff22-4496
+  #   blockPublicAccess: true
+  #   serverSideEncryption: AES256
   disableDefaultOutputExportNames: true
   disableDefaultOutputExports: true
   useDotenv: false
