@@ -4,11 +4,6 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ap-south-1
-  # Remove the deploymentBucket configuration
-  # deploymentBucket:
-  #   name: live-bazar-deployment-bucket-ap-south-1-e90dff22-4496
-  #   blockPublicAccess: true
-  #   serverSideEncryption: AES256
   disableDefaultOutputExportNames: true
   disableDefaultOutputExports: true
   useDotenv: false
@@ -18,7 +13,7 @@ provider:
     DYNAMODB_PRODUCT_TABLE: ProductTable
     DYNAMODB_ORDER_TABLE: OrderTable
 
-configValidationMode: off # Disable validation to avoid SSM-related issues
+configValidationMode: off
 
 resources:
   Resources:
@@ -92,9 +87,15 @@ functions:
 package:
   individually: true
   excludeDevDependencies: true
-  # Remove the aws-sdk exclusion
-  # exclude:
-  #   - node_modules/aws-sdk/**
+  exclude:
+    - node_modules/aws-sdk/** # Ensure aws-sdk is excluded
+    - .git/**                 # Exclude Git files
+    - .vscode/**              # Exclude VSCode settings
+    - tests/**                # Exclude test files
+    - README.md               # Exclude README
+  include:
+    - src/**                  # Include only source files
+    - serverless.yml          # Include serverless configuration
 
 plugins:
   - serverless-offline
