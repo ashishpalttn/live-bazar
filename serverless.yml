@@ -88,11 +88,12 @@ package:
   individually: true
   excludeDevDependencies: true
   exclude:
-    - node_modules/aws-sdk/** # Ensure aws-sdk is excluded
+    - node_modules/aws-sdk/** # Exclude aws-sdk explicitly
     - .git/**                 # Exclude Git files
     - .vscode/**              # Exclude VSCode settings
     - tests/**                # Exclude test files
     - README.md               # Exclude README
+    - package-lock.json       # Exclude lock file
   include:
     - src/**                  # Include only source files
     - serverless.yml          # Include serverless configuration
