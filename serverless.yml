@@ -8,8 +8,6 @@ provider:
   disableDefaultOutputExports: true
   useDotenv: false
   disableDefaultIamRoleStatements: true
-  deploymentBucket:
-    name: your-existing-bucket-name
   environment:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: ProductTable
