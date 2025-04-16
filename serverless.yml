@@ -84,6 +84,13 @@ functions:
           path: order/{id}
           method: get
 
+  testFunction:
+    handler: src/handlers/test.handler
+    events:
+      - http:
+          path: test
+          method: get
+
 package:
   individually: true
   excludeDevDependencies: true
