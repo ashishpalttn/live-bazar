@@ -15,11 +15,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22"
+          node-version: "18"
 
       - name: Install Dependencies
-        run: npm install
-        # This ensures all dependencies, including serverless-offline, are installed locally
+        run: |
+          rm -rf node_modules
+          npm install
+        # Ensure a clean workspace and install dependencies
 
       - name: Authenticate with Serverless Framework
         env:
