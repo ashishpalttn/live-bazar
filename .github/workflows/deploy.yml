@@ -20,51 +20,11 @@ jobs:
       - name: Install Dependencies
         run: |
           rm -rf node_modules
-          
           npm install
         # Ensure a clean workspace and install dependencies
 
-      - name: Authenticate with Serverless Framework
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-        run: echo "Using Serverless Framework access key"
-
-      - name: Verify Serverless Framework Version
-        run: npx serverless --version
-        # Use npx to ensure the locally installed serverless framework is used
-
-      - name: Validate Serverless Access Key
-        run: |
-          if [ -z "${{ secrets.SERVERLESS_ACCESS_KEY }}" ]; then
-            echo "Error: SERVERLESS_ACCESS_KEY is not set."
-            exit 1
-          fi
-
-      - name: Configure AWS CLI
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region us-east-1
-
-      - name: Validate AWS Credentials
-        run: |
-          aws sts get-caller-identity || { echo "Error: Invalid AWS credentials."; exit 1; }
-
-      - name: Print Environment Variables
-        run: env
-
-      - name: Print Debug Information
-        run: |
-          echo "Serverless Configuration:"
-          cat serverless.yml
-          echo "Environment Variables:"
-          env
-
       - name: Deploy Application
         run: npx serverless deploy --config serverless.yml --debug
-        # Use npx to ensure the locally installed serverless framework and plugins are used
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
