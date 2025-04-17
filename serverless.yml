@@ -8,6 +8,8 @@ provider:
   disableDefaultOutputExports: true
   useDotenv: false
   disableDefaultIamRoleStatements: true
+  deploymentBucket:
+    name: live-bazar-deployment-bucket # Replace with your S3 bucket name
   environment:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: ProductTable
