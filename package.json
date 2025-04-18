@@ -12,7 +12,8 @@
         "@vendia/serverless-express": "^4.12.6",
         "aws-serverless-express": "^3.4.0",
         "express": "^4.21.2",
-        "uuid": "^9.0.0"
+        "uuid": "^9.0.0",
+        "aws-sdk": "^2.1692.0"
     },
     "devDependencies": {
         "serverless-offline": "^14.4.0"
