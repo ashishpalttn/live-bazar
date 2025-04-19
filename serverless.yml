@@ -2,7 +2,7 @@ service: live-bazar-api
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs22.x
   region: ap-south-1
   disableDefaultOutputExportNames: true
   disableDefaultOutputExports: true
