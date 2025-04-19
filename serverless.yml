@@ -87,7 +87,7 @@ functions:
           method: get
 
   testFunction:
-    handler: src/handlers/test.handler
+    handler: src/handlers/test.handler # Updated to reflect the new structure
     events:
       - http:
           path: test
@@ -103,8 +103,10 @@ package:
     - README.md               # Exclude README
     - package-lock.json       # Exclude lock file
   include:
-    - src/**                  # Include only source files
+    - src/**                  # Include source files
     - serverless.yml          # Include serverless configuration
+    - src/models/**           # Include models
+    - src/config/**           # Include config
 
 plugins:
   - serverless-offline

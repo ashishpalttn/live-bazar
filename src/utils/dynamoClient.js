@@ -1,8 +1,6 @@
-const AWS = require('aws-sdk');
+const dynamoDb = require('../config/database'); // Use the database config
 
-// Debug log to verify the AWS object
-console.log("AWS SDK Version:", AWS.VERSION || "Built-in AWS SDK not found");
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+// Debug log to verify the DynamoDB client
+console.log("DynamoDB Client Configured");
 
 module.exports = dynamoDb;
