@@ -64,4 +64,13 @@ const deleteShop = async (shopId) => {
     return { message: `Shop with shopId "${shopId}" deleted successfully` };
 };
 
-module.exports = { createShop, getShop, updateShop, deleteShop };
+const getAllShops = async () => {
+    const params = {
+        TableName: SHOPS_TABLE,
+    };
+
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
+module.exports = { createShop, getShop, updateShop, deleteShop, getAllShops };

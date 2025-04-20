@@ -117,6 +117,9 @@ functions:
       - http:
           path: shop/{id}
           method: delete
+      - http:
+          path: shops
+          method: get
 
   testFunction:
     handler: src/handlers/test.handler # Updated to reflect the new structure

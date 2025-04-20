@@ -11,6 +11,11 @@ exports.handler = async (event) => {
             return { statusCode: 201, body: JSON.stringify({ message: 'Shop created successfully', shop }) };
         }
 
+        if (httpMethod === 'GET' && !pathParameters) {
+            const shops = await shopService.getAllShops();
+            return { statusCode: 200, body: JSON.stringify({ message: 'All shops fetched successfully', shops }) };
+        }
+
         if (httpMethod === 'GET') {
             const shopId = pathParameters.id;
             const shop = await shopService.getShop(shopId);
