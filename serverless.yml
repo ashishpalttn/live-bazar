@@ -58,6 +58,7 @@ resources:
 functions:
   userApi:
     handler: src/handlers/user.handler
+    timeout: 300 # Increase timeout to 300 seconds (5 minutes)
     events:
       - http:
           path: user
@@ -68,6 +69,7 @@ functions:
 
   productApi:
     handler: src/handlers/product.handler
+    timeout: 30 
     events:
       - http:
           path: product
@@ -107,6 +109,11 @@ package:
     - serverless.yml          # Include serverless configuration
     - src/models/**           # Include models
     - src/config/**           # Include config
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    lambdaTimeout: 300
 
 plugins:
   - serverless-offline

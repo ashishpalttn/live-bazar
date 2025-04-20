@@ -6,7 +6,7 @@
         "start": "node src/server.js",
         "start:offline": "serverless offline --stage dev --config config/serverless.yml",
         "test": "jest --coverage",
-        "debug": "node --inspect-brk node_modules/.bin/serverless offline --config config/serverless.yml"
+        "debug": "node --inspect ./node_modules/.bin/serverless offline --stage dev"
     },
     "dependencies": {
         "@vendia/serverless-express": "^4.12.6",
@@ -17,6 +17,7 @@
         "uuid": "^9.0.0"
     },
     "devDependencies": {
+        "serverless": "^4.14.1",
         "serverless-offline": "^14.4.0"
     }
 }

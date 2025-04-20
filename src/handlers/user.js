@@ -2,6 +2,9 @@ const userService = require('../services/userService');
 
 exports.handler = async (event) => {
     try {
+        console.log('Received event:', JSON.stringify(event, null, 2)); // Log the incoming event
+        debugger; // Pause execution here for debugging
+
         if (event.httpMethod === 'POST') {
             const userData = JSON.parse(event.body);
             const user = await userService.createUser(userData);
