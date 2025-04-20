@@ -14,6 +14,7 @@ provider:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: ProductTable
     DYNAMODB_ORDER_TABLE: OrderTable
+    DYNAMODB_SHOPS_TABLE: ShopsTable
 
 configValidationMode: off
 
@@ -55,6 +56,18 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
+    ShopsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ShopsTable
+        AttributeDefinitions:
+          - AttributeName: shopId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: shopId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
 functions:
   userApi:
     handler: src/handlers/user.handler
@@ -87,6 +100,23 @@ functions:
       - http:
           path: order/{id}
           method: get
+
+  shopApi:
+    handler: src/handlers/shop.handler
+    timeout: 300
+    events:
+      - http:
+          path: shop
+          method: post
+      - http:
+          path: shop/{id}
+          method: get
+      - http:
+          path: shop/{id}
+          method: patch
+      - http:
+          path: shop/{id}
+          method: delete
 
   testFunction:
     handler: src/handlers/test.handler # Updated to reflect the new structure
