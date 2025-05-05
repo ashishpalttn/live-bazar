@@ -1,4 +1,5 @@
 const shopService = require('../services/shopService');
+const { getSuccessResponseObject, getFailureResponseObject, getErrorResponseObject } = require('../utils/util');
 
 exports.handler = async (event) => {
     try {
@@ -8,31 +9,36 @@ exports.handler = async (event) => {
         if (httpMethod === 'POST') {
             const shopData = JSON.parse(body);
             const shop = await shopService.createShop(shopData);
-            return { statusCode: 201, body: JSON.stringify({ message: 'Shop created successfully', shop }) };
+            const responseObj = getSuccessResponseObject('Shop created successfully', [{shop}]);
+            return { statusCode: 201, body: JSON.stringify(responseObj) };
         }
 
         if (httpMethod === 'GET' && !pathParameters) {
             const shops = await shopService.getAllShops();
-            return { statusCode: 200, body: JSON.stringify({ message: 'All shops fetched successfully', shops }) };
+            const responseObj = getSuccessResponseObject('All shops fetched successfully', [{shops}]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
         if (httpMethod === 'GET') {
             const shopId = pathParameters.id;
             const shop = await shopService.getShop(shopId);
-            return { statusCode: 200, body: JSON.stringify({ message: 'Shop fetched successfully', shop }) };
+            const responseObj = getSuccessResponseObject('Shop created successfully', [{shop}]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
         if (httpMethod === 'PATCH') {
             const shopId = pathParameters.id;
             const updates = JSON.parse(body);
             const updatedShop = await shopService.updateShop(shopId, updates);
-            return { statusCode: 200, body: JSON.stringify({ message: 'Shop updated successfully', updatedShop }) };
+            const responseObj = getSuccessResponseObject('Shop updated successfully', [{updatedShop}]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
         if (httpMethod === 'DELETE') {
             const shopId = pathParameters.id;
             const result = await shopService.deleteShop(shopId);
-            return { statusCode: 200, body: JSON.stringify(result) };
+            const responseObj = getSuccessResponseObject('Shop deleted successfully', [{result}]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
         return { statusCode: 405, body: JSON.stringify({ message: 'Method not allowed' }) };

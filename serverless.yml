@@ -14,7 +14,7 @@ provider:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: ProductTable
     DYNAMODB_ORDER_TABLE: OrderTable
-    DYNAMODB_SHOPS_TABLE: ShopsTable
+    DYNAMODB_SHOPS_TABLE: shops
 
 configValidationMode: off
 
@@ -56,10 +56,10 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
-    ShopsTable:
+    shops:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ShopsTable
+        TableName: shops
         AttributeDefinitions:
           - AttributeName: shopId
             AttributeType: S
