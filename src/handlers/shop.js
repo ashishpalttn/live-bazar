@@ -22,7 +22,7 @@ exports.handler = async (event) => {
         if (httpMethod === 'GET') {
             const shopId = pathParameters.id;
             const shop = await shopService.getShop(shopId);
-            const responseObj = getSuccessResponseObject('Shop created successfully', [{shop}]);
+            const responseObj = getSuccessResponseObject('Shop fetched successfully', [{shop}]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
