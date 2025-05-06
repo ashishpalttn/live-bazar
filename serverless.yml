@@ -55,18 +55,18 @@ resources:
           - AttributeName: orderId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-#currently shops table importing from the s3 bucket with dummy data so commented out 
-    # shops:
-    #   Type: AWS::DynamoDB::Table
-    #   Properties:
-    #     TableName: shops
-    #     AttributeDefinitions:
-    #       - AttributeName: shopId
-    #         AttributeType: S
-    #     KeySchema:
-    #       - AttributeName: shopId
-    #         KeyType: HASH
-    #     BillingMode: PAY_PER_REQUEST
+
+    shops:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: shops
+        AttributeDefinitions:
+          - AttributeName: shopId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: shopId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
 
 functions:
   userApi:
