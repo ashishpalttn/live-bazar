@@ -63,7 +63,7 @@ resources:
           - AttributeName: orderId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-
+# shop is created manualy by importing csv data from s3 bucket
     # shops:
     #   Type: AWS::DynamoDB::Table
     #   Properties:
