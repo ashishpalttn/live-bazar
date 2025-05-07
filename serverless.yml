@@ -64,17 +64,17 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
-    shops:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: shops
-        AttributeDefinitions:
-          - AttributeName: shopId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: shopId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST 
+    # shops:
+    #   Type: AWS::DynamoDB::Table
+    #   Properties:
+    #     TableName: shops
+    #     AttributeDefinitions:
+    #       - AttributeName: shopId
+    #         AttributeType: S
+    #     KeySchema:
+    #       - AttributeName: shopId
+    #         KeyType: HASH
+    #     BillingMode: PAY_PER_REQUEST 
 
 functions:
   userApi:
