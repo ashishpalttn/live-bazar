@@ -66,7 +66,7 @@ resources:
         KeySchema:
           - AttributeName: shopId
             KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
+        BillingMode: PAY_PER_REQUEST 
 
 functions:
   userApi:
