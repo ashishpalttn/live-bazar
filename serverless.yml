@@ -19,8 +19,14 @@ provider:
 configValidationMode: off
 
 resources:
+  Parameters:
+    ExistingShopsTableName:
+      Type: String
+      Default: ""
+      Description: "Name of the existing shops table. Leave empty to create a new table."
+
   Conditions:
-    CreateShopsTable: !Equals [!Ref ExistingShopsTable, ""]
+    CreateShopsTable: !Equals [!Ref ExistingShopsTableName, ""]
 
   Resources:
     ExistingShopsTable:
