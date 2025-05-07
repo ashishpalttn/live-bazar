@@ -71,7 +71,7 @@ resources:
 functions:
   userApi:
     handler: src/handlers/user.handler
-    timeout: 300 # Increase timeout to 300 seconds (5 minutes)
+    timeout: 300 # Increase timeout to 300 seconds (5 minute)
     events:
       - http:
           path: user
