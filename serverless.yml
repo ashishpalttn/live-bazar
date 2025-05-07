@@ -19,7 +19,17 @@ provider:
 configValidationMode: off
 
 resources:
+  Conditions:
+    CreateShopsTable: !Equals [!Ref ExistingShopsTable, ""]
+
   Resources:
+    ExistingShopsTable:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /live-bazar/shops-table
+        Type: String
+        Value: !Ref AWS::NoValue # Placeholder for existing table name
+
     UserTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -57,6 +67,7 @@ resources:
         BillingMode: PAY_PER_REQUEST
 
     shops:
+      Condition: CreateShopsTable
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: shops
