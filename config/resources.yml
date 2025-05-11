@@ -1,0 +1,48 @@
+Resources:
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: UserTable
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  ProductTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ProductTable
+      AttributeDefinitions:
+        - AttributeName: productId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: productId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  OrderTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: OrderTable
+      AttributeDefinitions:
+        - AttributeName: orderId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: orderId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  shops:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: shops
+      AttributeDefinitions:
+        - AttributeName: shopId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: shopId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST

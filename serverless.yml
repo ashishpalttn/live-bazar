@@ -4,157 +4,42 @@ provider:
   name: aws
   runtime: nodejs22.x
   region: ap-south-1
-  disableDefaultOutputExportNames: true
-  disableDefaultOutputExports: true
-  useDotenv: false
-  disableDefaultIamRoleStatements: true
   deploymentBucket:
-    name: live-bazar-deployment-bucket # Replace with your S3 bucket name
+    name: live-bazar-deployment-bucket
   environment:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: ProductTable
     DYNAMODB_ORDER_TABLE: OrderTable
     DYNAMODB_SHOPS_TABLE: shops
 
-configValidationMode: off
-
-resources:
-  Parameters:
-    ExistingShopsTableName:
-      Type: String
-      Default: ""
-      Description: "Name of the existing shops table. Leave empty to create a new table."
-
-
-  Resources:
-
-    UserTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: UserTable
-        AttributeDefinitions:
-          - AttributeName: userId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: userId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
-
-    ProductTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ProductTable
-        AttributeDefinitions:
-          - AttributeName: productId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: productId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
-
-    OrderTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: OrderTable
-        AttributeDefinitions:
-          - AttributeName: orderId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: orderId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
-
-    shops:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: shops
-        AttributeDefinitions:
-          - AttributeName: shopId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: shopId
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST 
-
-functions:
-  userApi:
-    handler: src/handlers/user.handler
-    timeout: 300 # Increase timeout to 300 seconds (5 minute)
-    events:
-      - http:
-          path: user
-          method: post
-      - http:
-          path: user/{id}
-          method: get
-
-  productApi:
-    handler: src/handlers/product.handler
-    timeout: 30 
-    events:
-      - http:
-          path: product
-          method: post
-      - http:
-          path: product/{id}
-          method: get
-
-  orderApi:
-    handler: src/handlers/order.handler
-    events:
-      - http:
-          path: order
-          method: post
-      - http:
-          path: order/{id}
-          method: get
-
-  shopApi:
-    handler: src/handlers/shop.handler
-    timeout: 300
-    events:
-      - http:
-          path: shop
-          method: post
-      - http:
-          path: shop/{id}
-          method: get
-      - http:
-          path: shop/{id}
-          method: patch
-      - http:
-          path: shop/{id}
-          method: delete
-      - http:
-          path: shops
-          method: get
-
-  testFunction:
-    handler: src/handlers/test.handler # Updated to reflect the new structure
-    events:
-      - http:
-          path: test
-          method: get
-
-package:
-  individually: true
-  excludeDevDependencies: true
-  exclude:
-    - .git/**                 # Exclude Git files
-    - .vscode/**              # Exclude VSCode settings
-    - tests/**                # Exclude test files
-    - README.md               # Exclude README
-    - package-lock.json       # Exclude lock file
-  include:
-    - src/**                  # Include source files
-    - serverless.yml          # Include serverless configuration
-    - src/models/**           # Include models
-    - src/config/**           # Include config
-
 custom:
   serverless-offline:
     httpPort: 3000
     lambdaTimeout: 300
 
+resources:
+  # Include external resources file
+  - ${file(./config/resources.yml)}
+
+functions:
+  # Include external functions file
+  ${file(./config/functions.yml)}
+
 plugins:
   - serverless-offline
+  - serverless-plugin-include-dependencies
+
+package:
+  individually: true
+  excludeDevDependencies: true
+  exclude:
+    - .git/**
+    - .vscode/**
+    - tests/**
+    - README.md
+    - package-lock.json
+  include:
+    - src/**
+    - serverless.yml
+    - src/models/**
+    - src/config/**

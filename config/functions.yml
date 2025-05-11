@@ -1,0 +1,58 @@
+userApi:
+  handler: src/handlers/user.handler
+  timeout: 300
+  events:
+    - http:
+        path: user
+        method: post
+    - http:
+        path: user/{id}
+        method: get
+
+productApi:
+  handler: src/handlers/product.handler
+  timeout: 30
+  events:
+    - http:
+        path: product
+        method: post
+    - http:
+        path: product/{id}
+        method: get
+
+orderApi:
+  handler: src/handlers/order.handler
+  events:
+    - http:
+        path: order
+        method: post
+    - http:
+        path: order/{id}
+        method: get
+
+shopApi:
+  handler: src/handlers/shop.handler
+  timeout: 300
+  events:
+    - http:
+        path: shop
+        method: post
+    - http:
+        path: shop/{id}
+        method: get
+    - http:
+        path: shop/{id}
+        method: patch
+    - http:
+        path: shop/{id}
+        method: delete
+    - http:
+        path: shops
+        method: get
+
+testFunction:
+  handler: src/handlers/test.handler
+  events:
+    - http:
+        path: test
+        method: get
