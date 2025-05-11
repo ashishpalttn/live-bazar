@@ -30,25 +30,25 @@ shopApi:
         path: shops
         method: get
 
-# categoryApi:
-#   handler: src/handlers/category.handler
-#   timeout: 300
-#   events:
-#     - http:
-#         path: category
-#         method: post
-#     - http:
-#         path: category/{id}
-#         method: get
-#     - http:
-#         path: category/{id}
-#         method: patch
-#     - http:
-#         path: category/{id}
-#         method: delete
-#     - http:
-#         path: categories
-#         method: get
+categoryApi:
+  handler: src/handlers/category.handler
+  timeout: 300
+  events:
+    - http:
+        path: category
+        method: post
+    - http:
+        path: category/{id}
+        method: get
+    - http:
+        path: category/{id}
+        method: patch
+    - http:
+        path: category/{id}
+        method: delete
+    - http:
+        path: categories
+        method: get
 
 testFunction:
   handler: src/handlers/test.handler
