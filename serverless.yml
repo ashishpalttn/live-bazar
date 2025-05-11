@@ -11,6 +11,7 @@ provider:
     DYNAMODB_PRODUCT_TABLE: ProductTable
     DYNAMODB_ORDER_TABLE: OrderTable
     DYNAMODB_SHOPS_TABLE: shops
+    DYNAMODB_CATEGORIES_TABLE: categories
 
 custom:
   serverless-offline:

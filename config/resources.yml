@@ -22,3 +22,15 @@ Resources:
         - AttributeName: shopId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
+  
+  categories:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: categories
+      AttributeDefinitions:
+        - AttributeName: categoryId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: categoryId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
