@@ -21,15 +21,15 @@ userApi:
 #         path: product/{id}
 #         method: get
 
-orderApi:
-  handler: src/handlers/order.handler
-  events:
-    - http:
-        path: order
-        method: post
-    - http:
-        path: order/{id}
-        method: get
+# orderApi:
+#   handler: src/handlers/order.handler
+#   events:
+#     - http:
+#         path: order
+#         method: post
+#     - http:
+#         path: order/{id}
+#         method: get
 
 shopApi:
   handler: src/handlers/shop.handler

@@ -23,17 +23,17 @@ Resources:
   #         KeyType: HASH
   #     BillingMode: PAY_PER_REQUEST
 
-  OrderTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: OrderTable
-      AttributeDefinitions:
-        - AttributeName: orderId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: orderId
-          KeyType: HASH
-      BillingMode: PAY_PER_REQUEST
+  # OrderTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: OrderTable
+  #     AttributeDefinitions:
+  #       - AttributeName: orderId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: orderId
+  #         KeyType: HASH
+  #     BillingMode: PAY_PER_REQUEST
 
   shops:
     Type: AWS::DynamoDB::Table
