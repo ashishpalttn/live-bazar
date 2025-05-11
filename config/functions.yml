@@ -10,7 +10,7 @@ userApi:
         method: get
 
 productApi:
-  handler: src/handlers/product.handler
+  handler: src/handlers/product.handler # Ensure this matches the actual file path
   timeout: 30
   events:
     - http:
