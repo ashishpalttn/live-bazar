@@ -11,17 +11,17 @@ Resources:
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
-  ProductTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: ProductTable
-      AttributeDefinitions:
-        - AttributeName: productId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: productId
-          KeyType: HASH
-      BillingMode: PAY_PER_REQUEST
+  # ProductTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: ProductTable
+  #     AttributeDefinitions:
+  #       - AttributeName: productId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: productId
+  #         KeyType: HASH
+  #     BillingMode: PAY_PER_REQUEST
 
   OrderTable:
     Type: AWS::DynamoDB::Table

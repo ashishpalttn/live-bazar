@@ -9,16 +9,17 @@ userApi:
         path: user/{id}
         method: get
 
-productApi:
-  handler: src/handlers/product.handler # Ensure this matches the actual file path
-  timeout: 30
-  events:
-    - http:
-        path: product
-        method: post
-    - http:
-        path: product/{id}
-        method: get
+
+# productApi:
+#   handler: src/handlers/product.handler # Ensure this matches the actual file path
+#   timeout: 30
+#   events:
+#     - http:
+#         path: product
+#         method: post
+#     - http:
+#         path: product/{id}
+#         method: get
 
 orderApi:
   handler: src/handlers/order.handler
