@@ -29,6 +29,9 @@ shopApi:
     - http:
         path: shops
         method: get
+    - http:
+        path: shops-by-city
+        method: get
 
 categoryApi:
   handler: src/handlers/category.handler

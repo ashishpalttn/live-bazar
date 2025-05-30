@@ -13,6 +13,16 @@ exports.handler = async (event) => {
             return { statusCode: 201, body: JSON.stringify(responseObj) };
         }
 
+        if (httpMethod === 'GET' && event.path === '/shops-by-city') {
+            const { city } = event.queryStringParameters || {};
+            if (!city) {
+                return { statusCode: 400, body: JSON.stringify({ message: 'City query parameter is required' }) };
+            }
+            const shops = await shopService.getShopsByCity(city);
+            const responseObj = getSuccessResponseObject('Shops fetched successfully by city', shops);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
         if (httpMethod === 'GET' && !pathParameters) {
             const shops = await shopService.getAllShops();
             const responseObj = getSuccessResponseObject('All shops fetched successfully', [{shops}]);

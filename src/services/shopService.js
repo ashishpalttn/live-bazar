@@ -73,4 +73,16 @@ const getAllShops = async () => {
     return result.Items;
 };
 
-module.exports = { createShop, getShop, updateShop, deleteShop, getAllShops };
+const getShopsByCity = async (city) => {
+    const params = {
+        TableName: SHOPS_TABLE,
+        FilterExpression: '#city = :city',
+        ExpressionAttributeNames: { '#city': 'city' },
+        ExpressionAttributeValues: { ':city': city },
+    };
+    debugger
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items.filter((shop) => shop.city === city); // Ensure filtering is applied
+};
+
+module.exports = { createShop, getShop, updateShop, deleteShop, getAllShops, getShopsByCity };
