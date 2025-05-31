@@ -19,7 +19,7 @@ exports.handler = async (event) => {
                 return { statusCode: 400, body: JSON.stringify({ message: 'City query parameter is required' }) };
             }
             const shops = await shopService.getShopsByCity(city);
-            const responseObj = getSuccessResponseObject('Shops fetched successfully by city', shops);
+            const responseObj = getSuccessResponseObject('Shops fetched successfully by city', [{shops}]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
