@@ -34,3 +34,15 @@ Resources:
         - AttributeName: categoryId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
+
+  vendors:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: vendors
+      AttributeDefinitions:
+        - AttributeName: vendor_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: vendor_id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST

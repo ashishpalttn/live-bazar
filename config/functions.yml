@@ -59,3 +59,23 @@ testFunction:
     - http:
         path: test
         method: get
+
+vendorApi:
+  handler: src/handlers/vendor.handler
+  timeout: 300
+  events:
+    - http:
+        path: vendor
+        method: post
+    - http:
+        path: vendor/{id}
+        method: get
+    - http:
+        path: vendor/{id}
+        method: patch
+    - http:
+        path: vendor/{id}
+        method: delete
+    - http:
+        path: vendors
+        method: get
