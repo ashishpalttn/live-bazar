@@ -13,12 +13,22 @@ exports.handler = async (event) => {
         }
 
         if (httpMethod === 'GET' && event.path === '/vendors-by-city-category') {
-            const { city, category_code } = event.queryStringParameters || {};
-            if (!city || !category_code) {
-                return { statusCode: 400, body: JSON.stringify({ message: 'city and category_code query parameters are required' }) };
+            const { latitude, longitude, range, category_code, city } = event.queryStringParameters || {};
+            let vendors;
+            const radiusKm = range ? parseFloat(range) / 1000 : 5;
+            if (latitude && longitude) {
+                if (category_code) {
+                    // Find vendors under range for city and category
+                    vendors = await vendorService.getVendorsByCityCategoryAndLocation(city, category_code, parseFloat(latitude), parseFloat(longitude), radiusKm);
+                } else {
+                    // Find vendors under range for city, all categories
+                    vendors = await vendorService.getVendorsByCityCategoryAndLocation(city, null, parseFloat(latitude), parseFloat(longitude), radiusKm);
+                }
+            } else {
+                // No lat/lng: filter by city and (optionally) category
+                vendors = await vendorService.getVendorsByCityAndCategory(city, category_code);
             }
-            const vendors = await vendorService.getVendorsByCityAndCategory(city, category_code);
-            const responseObj = getSuccessResponseObject('Vendors fetched successfully by city and category_code', [{vendors}]);
+            const responseObj = getSuccessResponseObject('Vendors fetched successfully', [{vendors}]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
