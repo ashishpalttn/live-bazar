@@ -79,3 +79,6 @@ vendorApi:
     - http:
         path: vendors
         method: get
+    - http:
+        path: vendors-by-city-category
+        method: get

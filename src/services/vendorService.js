@@ -5,6 +5,7 @@ const vendorModel = require('../models/vendorModel');
 const VENDORS_TABLE = process.env.DYNAMODB_VENDORS_TABLE || 'vendors';
 
 const createVendor = async (vendorData) => {
+    console.log('Creating vendor with data:', vendorData);
     const { error, value } = vendorModel.validate(vendorData, { abortEarly: false });
     if (error) {
         throw new Error(`Validation error: ${error.details.map((err) => err.message).join(', ')}`);
@@ -24,6 +25,7 @@ const createVendor = async (vendorData) => {
 };
 
 const getVendor = async (vendor_id) => {
+    console.log(`Fetching vendor with vendor_id: ${vendor_id}`);
     const params = {
         TableName: VENDORS_TABLE,
         Key: { vendor_id },
@@ -35,15 +37,9 @@ const getVendor = async (vendor_id) => {
     return result.Item;
 };
 
-const getAllVendors = async () => {
-    const params = {
-        TableName: VENDORS_TABLE,
-    };
-    const result = await dynamoClient.scan(params).promise();
-    return result.Items;
-};
 
 const updateVendor = async (vendor_id, updates) => {
+    console.log(`Updating vendor with vendor_id: ${vendor_id}`);
     const params = {
         TableName: VENDORS_TABLE,
         Key: { vendor_id },
@@ -57,6 +53,7 @@ const updateVendor = async (vendor_id, updates) => {
 };
 
 const deleteVendor = async (vendor_id) => {
+    console.log(`Deleting vendor with vendor_id: ${vendor_id}`);
     const params = {
         TableName: VENDORS_TABLE,
         Key: { vendor_id },
@@ -65,10 +62,38 @@ const deleteVendor = async (vendor_id) => {
     return { vendor_id };
 };
 
+const getVendorsByCityAndCategory = async (city, category_code) => {
+    console.log(`Fetching vendors for city: ${city}, category_code: ${category_code}`);
+    const params = {
+        TableName: VENDORS_TABLE,
+        FilterExpression: '#city = :city and #category_code = :category_code',
+        ExpressionAttributeNames: {
+            '#city': 'city',
+            '#category_code': 'category_code',
+        },
+        ExpressionAttributeValues: {
+            ':city': city,
+            ':category_code': category_code,
+        },
+    };
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
+const getAllVendors = async () => {
+    console.log('Fetching all vendors');
+    const params = {
+        TableName: VENDORS_TABLE,
+    };
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
 module.exports = {
     createVendor,
     getVendor,
     getAllVendors,
     updateVendor,
     deleteVendor,
+    getVendorsByCityAndCategory,
 };

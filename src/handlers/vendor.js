@@ -12,6 +12,16 @@ exports.handler = async (event) => {
             return { statusCode: 201, body: JSON.stringify(responseObj) };
         }
 
+        if (httpMethod === 'GET' && event.path === '/vendors-by-city-category') {
+            const { city, category_code } = event.queryStringParameters || {};
+            if (!city || !category_code) {
+                return { statusCode: 400, body: JSON.stringify({ message: 'city and category_code query parameters are required' }) };
+            }
+            const vendors = await vendorService.getVendorsByCityAndCategory(city, category_code);
+            const responseObj = getSuccessResponseObject('Vendors fetched successfully by city and category_code', [{vendors}]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
         if (httpMethod === 'GET' && !pathParameters) {
             const vendors = await vendorService.getAllVendors();
             const responseObj = getSuccessResponseObject('All vendors fetched successfully', [{vendors}]);
