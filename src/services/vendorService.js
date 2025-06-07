@@ -85,18 +85,7 @@ const getVendorsByCityAndCategory = async (city, category_code) => {
 const getVendorsByCityCategoryAndLocation = async (city, category_code, latitude, longitude, radiusKm = 5) => {
     console.log(`Fetching vendors for city: ${city}, category_code: ${category_code}, within ${radiusKm} km`);
     // Haversine formula to calculate distance between two lat/lng points
-    function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radius of the earth in km
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        // console.log(`Calculated distance: ${R * c} km`);
-        return R * c; // Distance in km
-    }
+
     // Build scan filter
     let filterExp = '#city = :city';
     let attrNames = { '#city': 'city' };
@@ -126,6 +115,65 @@ const getVendorsByCityCategoryAndLocation = async (city, category_code, latitude
     return vendors;
 };
 
+const getVendorsByCityCategorySubcategoryAndLocation = async (city, category_code, subcategory_code, latitude, longitude, radiusKm = 5) => {
+    // Build scan filter
+    let filterExp = '#city = :city';
+    let attrNames = { '#city': 'city' };
+    let attrValues = { ':city': city };
+    if (category_code) {
+        filterExp += ' and #category_code = :category_code';
+        attrNames['#category_code'] = 'category_code';
+        attrValues[':category_code'] = category_code;
+    }
+    if (subcategory_code) {
+        filterExp += ' and #subcategory_code = :subcategory_code';
+        attrNames['#subcategory_code'] = 'subcategory_code';
+        attrValues[':subcategory_code'] = subcategory_code;
+    }
+    const params = {
+        TableName: VENDORS_TABLE,
+        FilterExpression: filterExp,
+        ExpressionAttributeNames: attrNames,
+        ExpressionAttributeValues: attrValues,
+    };
+    const result = await dynamoClient.scan(params).promise();
+    const vendors = (result.Items || []).filter(vendor => {
+        if (!vendor.latitude || !vendor.longitude) return false;
+        const dist = getDistanceFromLatLonInKm(
+            latitude,
+            longitude,
+            parseFloat(vendor.latitude),
+            parseFloat(vendor.longitude)
+        );
+        return dist <= radiusKm;
+    });
+    return vendors;
+};
+
+const getVendorsByCityCategoryAndSubcategory = async (city, category_code, subcategory_code) => {
+    let filterExp = '#city = :city';
+    let attrNames = { '#city': 'city' };
+    let attrValues = { ':city': city };
+    if (category_code) {
+        filterExp += ' and #category_code = :category_code';
+        attrNames['#category_code'] = 'category_code';
+        attrValues[':category_code'] = category_code;
+    }
+    if (subcategory_code) {
+        filterExp += ' and #subcategory_code = :subcategory_code';
+        attrNames['#subcategory_code'] = 'subcategory_code';
+        attrValues[':subcategory_code'] = subcategory_code;
+    }
+    const params = {
+        TableName: VENDORS_TABLE,
+        FilterExpression: filterExp,
+        ExpressionAttributeNames: attrNames,
+        ExpressionAttributeValues: attrValues,
+    };
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
 const getAllVendors = async () => {
     console.log('Fetching all vendors');
     const params = {
@@ -135,6 +183,19 @@ const getAllVendors = async () => {
     return result.Items;
 };
 
+    function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radius of the earth in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        // console.log(`Calculated distance: ${R * c} km`);
+        return R * c; // Distance in km
+    }
+
 module.exports = {
     createVendor,
     getVendor,
@@ -143,4 +204,6 @@ module.exports = {
     deleteVendor,
     getVendorsByCityAndCategory,
     getVendorsByCityCategoryAndLocation,
+    getVendorsByCityCategorySubcategoryAndLocation,
+    getVendorsByCityCategoryAndSubcategory,
 };

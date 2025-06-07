@@ -13,20 +13,20 @@ exports.handler = async (event) => {
         }
 
         if (httpMethod === 'GET' && event.path === '/vendors-by-city-category') {
-            const { latitude, longitude, range, category_code, city } = event.queryStringParameters || {};
+            const { latitude, longitude, range, category_code, subcategory_code, city } = event.queryStringParameters || {};
             let vendors;
             const radiusKm = range ? parseFloat(range) / 1000 : 5;
             if (latitude && longitude) {
-                if (category_code) {
-                    // Find vendors under range for city and category
-                    vendors = await vendorService.getVendorsByCityCategoryAndLocation(city, category_code, parseFloat(latitude), parseFloat(longitude), radiusKm);
+                if (category_code || subcategory_code) {
+                    // Find vendors under range for city, category, and subcategory
+                    vendors = await vendorService.getVendorsByCityCategorySubcategoryAndLocation(city, category_code, subcategory_code, parseFloat(latitude), parseFloat(longitude), radiusKm);
                 } else {
-                    // Find vendors under range for city, all categories
-                    vendors = await vendorService.getVendorsByCityCategoryAndLocation(city, null, parseFloat(latitude), parseFloat(longitude), radiusKm);
+                    // Find vendors under range for city, all categories/subcategories
+                    vendors = await vendorService.getVendorsByCityCategorySubcategoryAndLocation(city, null, null, parseFloat(latitude), parseFloat(longitude), radiusKm);
                 }
             } else {
-                // No lat/lng: filter by city and (optionally) category
-                vendors = await vendorService.getVendorsByCityAndCategory(city, category_code);
+                // No lat/lng: filter by city, category, and subcategory
+                vendors = await vendorService.getVendorsByCityCategoryAndSubcategory(city, category_code, subcategory_code);
             }
             const responseObj = getSuccessResponseObject('Vendors fetched successfully', [{vendors}]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
