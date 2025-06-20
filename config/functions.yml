@@ -82,3 +82,23 @@ vendorApi:
     - http:
         path: vendors-by-city-category
         method: get
+
+productApi:
+  handler: src/handlers/product.handler
+  timeout: 300
+  events:
+    - http:
+        path: product
+        method: post
+    - http:
+        path: product/{id}
+        method: get
+    - http:
+        path: product/{id}
+        method: patch
+    - http:
+        path: product/{id}
+        method: delete
+    - http:
+        path: products
+        method: get
