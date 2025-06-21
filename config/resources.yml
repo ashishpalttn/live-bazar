@@ -35,3 +35,15 @@ Resources:
         - AttributeName: product_id
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
+
+  vendorProduct:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: vendor-product
+      AttributeDefinitions:
+        - AttributeName: vp_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: vp_id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
