@@ -10,7 +10,6 @@ provider:
     DYNAMODB_USER_TABLE: UserTable
     DYNAMODB_PRODUCT_TABLE: products
     DYNAMODB_ORDER_TABLE: OrderTable
-    DYNAMODB_SHOPS_TABLE: shops
     DYNAMODB_CATEGORIES_TABLE: categories
     DYNAMODB_PRODUCTS_TABLE: products
 

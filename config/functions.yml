@@ -10,29 +10,6 @@ userApi:
         method: get
 
 
-shopApi:
-  handler: src/handlers/shop.handler
-  timeout: 300
-  events:
-    - http:
-        path: shop
-        method: post
-    - http:
-        path: shop/{id}
-        method: get
-    - http:
-        path: shop/{id}
-        method: patch
-    - http:
-        path: shop/{id}
-        method: delete
-    - http:
-        path: shops
-        method: get
-    - http:
-        path: shops-by-city
-        method: get
-
 categoryApi:
   handler: src/handlers/category.handler
   timeout: 300
@@ -82,6 +59,7 @@ vendorApi:
     - http:
         path: vendors-by-city-category
         method: get
+
 
 productApi:
   handler: src/handlers/product.handler
