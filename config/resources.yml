@@ -1,15 +1,4 @@
 Resources:
-  # UserTable:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: UserTable
-  #     AttributeDefinitions:
-  #       - AttributeName: userId
-  #         AttributeType: S
-  #     KeySchema:
-  #       - AttributeName: userId
-  #         KeyType: HASH
-  #     BillingMode: PAY_PER_REQUEST
 
   categories:
     Type: AWS::DynamoDB::Table
