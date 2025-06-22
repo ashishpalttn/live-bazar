@@ -1,4 +1,5 @@
 const productService = require('../services/productService');
+const vendorProductService = require('../services/vendorProductService');
 const { getSuccessResponseObject, getFailureResponseObject, getErrorResponseObject } = require('../utils/util');
 
 exports.handler = async (event) => {
@@ -12,16 +13,39 @@ exports.handler = async (event) => {
             return { statusCode: 201, body: JSON.stringify(responseObj) };
         }
 
-        if (httpMethod === 'GET' && !pathParameters) {
-            const products = await productService.getAllProducts();
-            const responseObj = getSuccessResponseObject('All products fetched successfully', [{products}]);
+        // if (httpMethod === 'GET') {
+        //     console.log('Fetching a product');
+        //     const product_id = pathParameters.id;
+        //     const product = await productService.getProduct(product_id);
+        //     const responseObj = getSuccessResponseObject('Product fetched successfully', [{product}]);
+        //     return { statusCode: 200, body: JSON.stringify(responseObj) };
+        // }
+
+        if (httpMethod === 'GET' && event.path==='/products-by-vendor') {
+            console.log('Fetching products for vendor_id:');
+            // New endpoint: fetch products by vendor_id
+            const {vendor_id} = event.queryStringParameters || {};
+            // Get all vendor-product mappings for this vendor
+            const vendorProducts = await vendorProductService.getProductIdsByVendorId(vendor_id);
+            const productIds = vendorProducts.map(vp => vp.product_id);
+            // Fetch product details for each product_id
+            const products = [];
+            for (const product_id of productIds) {
+                try {
+                    const product = await productService.getProduct(product_id);
+                    products.push(product);
+                } catch (e) {
+                    // skip missing products
+                }
+            }
+            const responseObj = getSuccessResponseObject('Products for vendor fetched successfully', [{ products, count: products.length }]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
-        if (httpMethod === 'GET') {
-            const product_id = pathParameters.id;
-            const product = await productService.getProduct(product_id);
-            const responseObj = getSuccessResponseObject('Product fetched successfully', [{product}]);
+        if (httpMethod === 'GET' && !pathParameters) {
+            console.log('Fetching all products');
+            const products = await productService.getAllProducts();
+            const responseObj = getSuccessResponseObject('All products fetched successfully', [{products}]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 

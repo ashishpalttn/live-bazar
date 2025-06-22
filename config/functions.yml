@@ -61,3 +61,6 @@ productApi:
     - http:
         path: products
         method: get
+    - http:
+        path: products-by-vendor
+        method: get
