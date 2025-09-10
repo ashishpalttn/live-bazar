@@ -6,13 +6,34 @@ const VENDORS_TABLE = process.env.DYNAMODB_VENDORS_TABLE || 'vendors';
 
 const createVendor = async (vendorData) => {
     console.log('Creating vendor with data:', vendorData);
+    // Validate using Joi schema
     const { error, value } = vendorModel.validate(vendorData, { abortEarly: false });
     if (error) {
+        // Find all empty mandatory fields
+        const emptyFields = [];
+        vendorModel._ids._byKey.forEach((schema, key) => {
+            if (schema.flags && schema.flags.presence === 'required') {
+                if (
+                    vendorData[key] === undefined ||
+                    vendorData[key] === null ||
+                    (Array.isArray(vendorData[key]) && vendorData[key].length === 0) ||
+                    (typeof vendorData[key] === 'string' && vendorData[key].trim() === '')
+                ) {
+                    emptyFields.push(key);
+                }
+            }
+        });
+        if (emptyFields.length > 0) {
+            const errorMsg = `Mandatory fields empty: ${emptyFields.join(', ')}`;
+            const err = new Error(errorMsg);
+            err.emptyFields = emptyFields;
+            throw err;
+        }
         throw new Error(`Validation error: ${error.details.map((err) => err.message).join(', ')}`);
     }
     const vendor = {
         ...value,
-        vendor_id: value.vendor_id || uuidv4(),
+        vendorId: value.vendorId || uuidv4(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     };
