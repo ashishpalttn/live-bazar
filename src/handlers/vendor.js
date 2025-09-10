@@ -12,7 +12,8 @@ exports.handler = async (event) => {
             const vendorData = JSON.parse(body);
             try {
                 const vendor = await vendorService.createVendor(vendorData);
-                const responseObj = getSuccessResponseObject('Vendor created successfully', [{vendor}]);
+                console.log("================",vendor)
+                const responseObj = getSuccessResponseObject('Vendor created successfully', [vendor]);
                 return { statusCode: 201, body: JSON.stringify(responseObj) };
             } catch (err) {
                 if (err.emptyFields) {
@@ -43,26 +44,26 @@ exports.handler = async (event) => {
                 // No lat/lng: filter by city, category, and subcategory
                 vendors = await vendorService.getVendorsByCityCategoryAndSubcategory(city, category_code, subcategory_code);
             }
-            vendors = getSuccessResponseObject('Vendors fetched successfully', [
+            vendors = getSuccessResponseObject('Vendors fetched successfully', 
                 filterFieldsByAppType(vendors, vendorSensitiveFieldsForClient, appType)
-            ]);
+            );
             return { statusCode: 200, body: JSON.stringify(vendors) };
         }
 
         if (httpMethod === 'GET' && !pathParameters) {
             const vendors = await vendorService.getAllVendors();
-            const responseObj = getSuccessResponseObject('All vendors fetched successfully', [
+            const responseObj = getSuccessResponseObject('All vendors fetched successfully',
                 filterFieldsByAppType(vendors, vendorSensitiveFieldsForClient, appType)
-            ]);
+            );
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
         if (httpMethod === 'GET') {
             const vendor_id = pathParameters.id;
             const vendor = await vendorService.getVendor(vendor_id);
-            const responseObj = getSuccessResponseObject('Vendor fetched successfully', [
+            const responseObj = getSuccessResponseObject('Vendor fetched successfully', 
                 filterFieldsByAppType(vendor, vendorSensitiveFieldsForClient, appType)
-            ]);
+            );
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 

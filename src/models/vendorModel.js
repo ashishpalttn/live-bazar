@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 // Define the Vendor Model Schema
 const vendorSchema = Joi.object({
-    vendorId: Joi.string().required().label('vendorId'),
+    vendorId: Joi.string().optional().label('vendorId'),
     storeName: Joi.string().required().label('storeName'),
     ownerName: Joi.string().required().label('ownerName'),
     mobileNumber: Joi.string().required().label('mobileNumber'),
