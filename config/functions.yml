@@ -64,3 +64,12 @@ productApi:
     - http:
         path: products-by-vendor
         method: get
+
+imageUpload:
+  handler: src/functions/imageUpload.handler
+  events:
+    - http:
+        path: upload-image
+        method: post
+        cors: true
+        # For multipart/form-data support, use serverless-express or middy

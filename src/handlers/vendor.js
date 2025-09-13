@@ -12,7 +12,6 @@ exports.handler = async (event) => {
             const vendorData = JSON.parse(body);
             try {
                 const vendor = await vendorService.createVendor(vendorData);
-                console.log("================",vendor)
                 const responseObj = getSuccessResponseObject('Vendor created successfully', [vendor]);
                 return { statusCode: 201, body: JSON.stringify(responseObj) };
             } catch (err) {

@@ -12,8 +12,11 @@
         "@vendia/serverless-express": "^4.12.6",
         "aws-sdk": "^2.1692.0",
         "aws-serverless-express": "^3.4.0",
+        "busboy": "^1.6.0",
         "express": "^4.21.2",
         "joi": "^17.13.3",
+        "multer": "^2.0.2",
+        "multer-s3": "^3.0.1",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
