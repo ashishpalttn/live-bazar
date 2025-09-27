@@ -45,25 +45,27 @@ const createVendor = async (vendorData) => {
     return vendor;
 };
 
-const getVendor = async (vendor_id) => {
-    console.log(`Fetching vendor with vendor_id: ${vendor_id}`);
+const getVendor = async (user_id) => {
+    console.log(`Fetching vendor with user_id: ${user_id}`);
     const params = {
         TableName: VENDORS_TABLE,
-        Key: { vendor_id },
+        FilterExpression: '#user_id = :user_id',
+        ExpressionAttributeNames: { '#user_id': 'user_id' },
+        ExpressionAttributeValues: { ':user_id': user_id },
     };
-    const result = await dynamoClient.get(params).promise();
-    if (!result.Item) {
-        throw new Error(`Vendor with vendor_id "${vendor_id}" not found`);
+    const result = await dynamoClient.scan(params).promise();
+    if (!result.Items || result.Items.length === 0) {
+        throw new Error(`Vendor with user_id "${user_id}" not found`);
     }
-    return result.Item;
+    return result.Items[0];
 };
 
 
-const updateVendor = async (vendor_id, updates) => {
-    console.log(`Updating vendor with vendor_id: ${vendor_id}`);
+const updateVendor = async (user_id, updates) => {
+    console.log(`Updating vendor with user_id: ${user_id}`);
     const params = {
         TableName: VENDORS_TABLE,
-        Key: { vendor_id },
+        Key: { user_id },
         UpdateExpression: 'set ' + Object.keys(updates).map((key, i) => `#${key} = :value${i}`).join(', '),
         ExpressionAttributeNames: Object.keys(updates).reduce((acc, key) => ({ ...acc, [`#${key}`]: key }), {}),
         ExpressionAttributeValues: Object.values(updates).reduce((acc, value, i) => ({ ...acc, [`:value${i}`]: value }), {}),
@@ -73,14 +75,14 @@ const updateVendor = async (vendor_id, updates) => {
     return result.Attributes;
 };
 
-const deleteVendor = async (vendor_id) => {
-    console.log(`Deleting vendor with vendor_id: ${vendor_id}`);
+const deleteVendor = async (user_id) => {
+    console.log(`Deleting vendor with user_id: ${user_id}`);
     const params = {
         TableName: VENDORS_TABLE,
-        Key: { vendor_id },
+        Key: { user_id },
     };
     await dynamoClient.delete(params).promise();
-    return { vendor_id };
+    return { user_id };
 };
 
 const getVendorsByCityAndCategory = async (city, category_code) => {

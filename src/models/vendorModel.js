@@ -3,6 +3,7 @@ const Joi = require('joi');
 // Define the Vendor Model Schema
 const vendorSchema = Joi.object({
     vendorId: Joi.string().optional().label('vendorId'),
+    user_id: Joi.string().required().label('user_id'),
     storeName: Joi.string().required().label('storeName'),
     ownerName: Joi.string().required().label('ownerName'),
     mobileNumber: Joi.string().required().label('mobileNumber'),
@@ -22,6 +23,7 @@ const vendorSchema = Joi.object({
     licenseCertificate: Joi.string().optional().allow('').label('licenseCertificate'),
     gstNumber: Joi.string().optional().allow('').label('gstNumber'),
     storeGeolocation: Joi.string().required().label('storeGeolocation'),
+    
 });
 
 module.exports = vendorSchema;

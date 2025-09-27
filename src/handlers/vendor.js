@@ -58,8 +58,8 @@ exports.handler = async (event) => {
         }
 
         if (httpMethod === 'GET') {
-            const vendor_id = pathParameters.id;
-            const vendor = await vendorService.getVendor(vendor_id);
+            const user_id = pathParameters.id;
+            const vendor = await vendorService.getVendor(user_id);
             const responseObj = getSuccessResponseObject('Vendor fetched successfully', 
                 filterFieldsByAppType(vendor, vendorSensitiveFieldsForClient, appType)
             );
