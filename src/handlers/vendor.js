@@ -61,7 +61,7 @@ exports.handler = async (event) => {
             const user_id = pathParameters.id;
             const vendor = await vendorService.getVendor(user_id);
             const responseObj = getSuccessResponseObject('Vendor fetched successfully', 
-                filterFieldsByAppType(vendor, vendorSensitiveFieldsForClient, appType)
+                [filterFieldsByAppType(vendor, vendorSensitiveFieldsForClient, appType)]
             );
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
