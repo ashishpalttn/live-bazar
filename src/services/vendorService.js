@@ -54,9 +54,9 @@ const getVendor = async (user_id) => {
         ExpressionAttributeValues: { ':user_id': user_id },
     };
     const result = await dynamoClient.scan(params).promise();
-    if (!result.Items || result.Items.length === 0) {
-        throw new Error(`Vendor with user_id "${user_id}" not found`);
-    }
+    // if (!result.Items || result.Items.length === 0) {
+    //     throw new Error(`Vendor with user_id "${user_id}" not found`);
+    // }
     return result.Items[0];
 };
 

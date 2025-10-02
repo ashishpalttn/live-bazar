@@ -60,6 +60,10 @@ exports.handler = async (event) => {
         if (httpMethod === 'GET') {
             const user_id = pathParameters.id;
             const vendor = await vendorService.getVendor(user_id);
+            if (!vendor) {
+                const responseObj = getSuccessResponseObject('Vendor not found', [{ isVendorProfile: false }]);
+                return { statusCode: 200, body: JSON.stringify(responseObj) };
+            }
             const responseObj = getSuccessResponseObject('Vendor fetched successfully', 
                 [filterFieldsByAppType(vendor, vendorSensitiveFieldsForClient, appType)]
             );
