@@ -61,7 +61,7 @@ exports.handler = async (event) => {
             const user_id = pathParameters.id;
             const vendor = await vendorService.getVendor(user_id);
             if (!vendor) {
-                const responseObj = getSuccessResponseObject('Vendor not found', [{ isVendorProfile: false }]);
+                const responseObj = getSuccessResponseObject('Vendor profile not found', [{ isVendorProfile: false }]);
                 return { statusCode: 200, body: JSON.stringify(responseObj) };
             }
             const responseObj = getSuccessResponseObject('Vendor fetched successfully', 

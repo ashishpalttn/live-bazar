@@ -49,15 +49,16 @@ const getVendor = async (user_id) => {
     console.log(`Fetching vendor with user_id: ${user_id}`);
     const params = {
         TableName: VENDORS_TABLE,
-        FilterExpression: '#user_id = :user_id',
-        ExpressionAttributeNames: { '#user_id': 'user_id' },
-        ExpressionAttributeValues: { ':user_id': user_id },
+        Key: { user_id },
     };
-    const result = await dynamoClient.scan(params).promise();
-    // if (!result.Items || result.Items.length === 0) {
-    //     throw new Error(`Vendor with user_id "${user_id}" not found`);
-    // }
-    return result.Items[0];
+    try {
+        const result = await dynamoClient.get(params).promise();
+        console.log('DynamoDB get result:', result);
+        return result?.Item;
+    } catch (error) {
+        console.error('Error fetching vendor:', error);
+        return undefined;
+    }
 };
 
 
