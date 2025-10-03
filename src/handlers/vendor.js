@@ -6,7 +6,17 @@ const { vendorSensitiveFieldsForClient } = require('../sensitiveData/vendorSensi
 exports.handler = async (event) => {
     try {
         const { httpMethod, pathParameters, body } = event;
-        const appType = (event.queryStringParameters && event.queryStringParameters.appType) || null;
+        const appType = (event.queryStringParameters && event.queryStringParameters.appType);
+        if(!appType ){
+            return{statusCode:400, body:JSON.stringify(getFailureResponseObject(
+                        "appType not found"
+                    ))}
+        }
+        if(appType  !=="VENDOR" || appType!=="CLIENT" ){
+            return{statusCode:400, body:JSON.stringify(getFailureResponseObject(
+                        "Wrong appType"
+                    ))}
+        }
 
         if (httpMethod === 'POST') {
             const vendorData = JSON.parse(body);
