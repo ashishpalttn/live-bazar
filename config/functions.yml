@@ -99,17 +99,17 @@ vendorProductApi:
   timeout: 300
   events:
     - http:
-        path: vendor/{vendorId}/product
+        path: vendorproducts/{vendorId}/product
         method: post
     - http:
-        path: vendor/{vendorId}/products
+        path: vendorproducts/{vendorId}/products
         method: get
     - http:
-        path: vendor/{vendorId}/product/{productId}
+        path: vendorproducts/{vendorId}/product/{productId}
         method: get
     - http:
-        path: vendor/{vendorId}/product/{productId}
+        path: vendorproducts/{vendorId}/product/{productId}
         method: patch
     - http:
-        path: vendor/{vendorId}/product/{productId}
+        path: vendorproducts/{vendorId}/product/{productId}
         method: delete
