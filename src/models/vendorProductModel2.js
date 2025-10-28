@@ -12,5 +12,4 @@ const vendorProductSchema = Joi.object({
     createdAt: Joi.string().optional(),
     updatedAt: Joi.string().optional() 
 });
-
 module.exports = vendorProductSchema;

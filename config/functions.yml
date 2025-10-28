@@ -93,3 +93,23 @@ productV2Api:
     - http:
         path: products-v2
         method: get
+
+vendorProductApi:
+  handler: src/handlers/vendorProduct2.handler
+  timeout: 300
+  events:
+    - http:
+        path: vendor/{vendorId}/product
+        method: post
+    - http:
+        path: vendor/{vendorId}/products
+        method: get
+    - http:
+        path: vendor/{vendorId}/product/{productId}
+        method: get
+    - http:
+        path: vendor/{vendorId}/product/{productId}
+        method: patch
+    - http:
+        path: vendor/{vendorId}/product/{productId}
+        method: delete
