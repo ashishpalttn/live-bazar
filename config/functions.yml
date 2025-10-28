@@ -73,3 +73,23 @@ imageUpload:
         method: post
         cors: true
         # For multipart/form-data support, use serverless-express or middy
+
+productV2Api:
+  handler: src/handlers/productV2.handler
+  timeout: 300
+  events:
+    - http:
+        path: product-v2
+        method: post
+    - http:
+        path: product-v2/{id}
+        method: get
+    - http:
+        path: product-v2/{id}
+        method: patch
+    - http:
+        path: product-v2/{id}
+        method: delete
+    - http:
+        path: products-v2
+        method: get
