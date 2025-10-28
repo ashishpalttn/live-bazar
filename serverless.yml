@@ -10,8 +10,8 @@ provider:
     DYNAMODB_PRODUCT_TABLE: products
     DYNAMODB_CATEGORIES_TABLE: categories
     DYNAMODB_PRODUCTS_TABLE: products
-    DYNAMODB_PRODUCTS_V2_TABLE: products_v2
-    DYNAMODB_VENDOR_PRODUCT_TABLE: vendor-product_v2
+    DYNAMODB_PRODUCTS_V2_TABLE: productsv2
+    DYNAMODB_VENDOR_PRODUCT_TABLE: vendorproductv2
 
 custom:
   serverless-offline:
