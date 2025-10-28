@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const dynamoClient = require('../utils/dynamoClient');
 const productV2Model = require('../models/productV2Model');
 
-const PRODUCTS_V2_TABLE = 'products-II';
+const PRODUCTS_V2_TABLE = 'products-v2';
 
 const createProductV2 = async (productData) => {
     const { error, value } = productV2Model.validate(productData, { abortEarly: false });
