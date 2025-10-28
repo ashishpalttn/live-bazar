@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const dynamoClient = require('../utils/dynamoClient');
 const vendorProductSchema = require('../models/vendorProductModel2');
 
-const VENDOR_PRODUCT_TABLE = process.env.DYNAMODB_VENDOR_PRODUCT_TABLE || 'vendor-product_v2';
+const VENDOR_PRODUCT_TABLE = process.env.DYNAMODB_VENDOR_PRODUCT_TABLE || 'vendor-products-II';
 
 const createVendorProduct = async (productData) => {
     const { error, value } = vendorProductSchema.validate(productData, { abortEarly: false });

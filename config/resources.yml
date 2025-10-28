@@ -60,7 +60,7 @@ Resources:
   products_v2:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: productsv2
+      TableName: products-II
       AttributeDefinitions:
         - AttributeName: product_id
           AttributeType: S
@@ -72,7 +72,7 @@ Resources:
   vendorProductV2:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: vendorproductv2
+      TableName: vendor-products-II
       AttributeDefinitions:
         - AttributeName: vendor_id
           AttributeType: S
