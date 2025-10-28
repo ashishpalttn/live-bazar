@@ -15,7 +15,7 @@ exports.handler = async (event) => {
         if(appType  !=="VENDOR" || appType!=="CLIENT" ){
             return{statusCode:400, body:JSON.stringify(getFailureResponseObject(
                         "Wrong appType"
-                    ))}
+                    ))} 
         }
 
         if (httpMethod === 'POST') {
