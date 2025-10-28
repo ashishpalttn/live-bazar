@@ -57,7 +57,7 @@ Resources:
           Projection:
             ProjectionType: ALL
             
-  products_v2:
+  products-v2:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: products-v2
