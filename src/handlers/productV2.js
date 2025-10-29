@@ -12,21 +12,6 @@ exports.handler = async (event) => {
             return { statusCode: 201, body: JSON.stringify(responseObj) };
         }
 
-        if (httpMethod === 'GET' && !pathParameters) {
-            const { products, count } = await productV2Service.getAllProductsV2();
-            const responseObj = getSuccessResponseObject('Products fetched successfully', [{
-                products,
-                count
-            }]);
-            return { statusCode: 200, body: JSON.stringify(responseObj) };
-        }
-
-        if (httpMethod === 'GET') {
-            const product_id = pathParameters.id;
-            const product = await productV2Service.getProductV2(product_id);
-            const responseObj = getSuccessResponseObject('Product fetched successfully', [{ product }]);
-            return { statusCode: 200, body: JSON.stringify(responseObj) };
-        }
 
         if (httpMethod === 'GET' && event.queryStringParameters && event.queryStringParameters.product_Name) {
             const { product_Name } = event.queryStringParameters;
@@ -39,11 +24,27 @@ exports.handler = async (event) => {
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
+        if (httpMethod === 'GET') {
+            const product_id = pathParameters.id;
+            const product = await productV2Service.getProductV2(product_id);
+            const responseObj = getSuccessResponseObject('Product fetched successfully', [{ product }]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
         if (httpMethod === 'PATCH') {
             const product_id = pathParameters.id;
             const updates = JSON.parse(body);
             const updatedProduct = await productV2Service.updateProductV2(product_id, updates);
             const responseObj = getSuccessResponseObject('Product updated successfully', [{ product: updatedProduct }]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
+        if (httpMethod === 'GET' && !pathParameters) {
+            const { products, count } = await productV2Service.getAllProductsV2();
+            const responseObj = getSuccessResponseObject('Products fetched successfully', [{
+                products,
+                count
+            }]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 

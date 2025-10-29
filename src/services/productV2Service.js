@@ -134,7 +134,11 @@ const searchProductsByName = async (searchTerm) => {
         // Alphabetical order for equal priority
         return nameA.localeCompare(nameB);
     });
-    return result.Items;
+    
+    return {
+        products: matchingProducts,
+        count: matchingProducts.length
+    };
 };
 
 module.exports = {
