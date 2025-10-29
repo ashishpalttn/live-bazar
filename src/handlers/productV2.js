@@ -28,6 +28,17 @@ exports.handler = async (event) => {
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
+        if (httpMethod === 'GET' && event.queryStringParameters && event.queryStringParameters.product_Name) {
+            const { product_Name } = event.queryStringParameters;
+            const { products, count } = await productV2Service.searchProductsByName(product_Name);
+            const responseObj = getSuccessResponseObject('Products searched successfully', [{ 
+                products,
+                count,
+                searchTerm: product_Name
+            }]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
         if (httpMethod === 'PATCH') {
             const product_id = pathParameters.id;
             const updates = JSON.parse(body);

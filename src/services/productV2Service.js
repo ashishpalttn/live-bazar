@@ -88,10 +88,60 @@ const getAllProductsV2 = async () => {
     };
 };
 
+const searchProductsByName = async (searchTerm) => {
+    // Convert search term to lowercase for case-insensitive search
+    searchTerm = searchTerm.toLowerCase();
+
+    // First get all products (since DynamoDB doesn't support native partial text search)
+    const params = {
+        TableName: PRODUCTS_V2_TABLE,
+    };
+
+    const result = await dynamoClient.scan(params).promise();
+    
+    // Filter products that match the search term
+    const matchingProducts = result.Items.filter(product => {
+        const productName = product.product_Name.toLowerCase();
+        
+        // Check if product name contains the search term
+        if (productName.includes(searchTerm)) {
+            return true;
+        }
+        
+        // Split product name into words for word-level matching
+        const productWords = productName.split(/\s+/);
+        return productWords.some(word => word.startsWith(searchTerm));
+    });
+
+    // Sort results by relevance
+    // Exact matches first, then starts with, then contains
+    matchingProducts.sort((a, b) => {
+        const nameA = a.product_Name.toLowerCase();
+        const nameB = b.product_Name.toLowerCase();
+
+        // Exact match gets highest priority
+        if (nameA === searchTerm) return -1;
+        if (nameB === searchTerm) return 1;
+
+        // Starts with gets second priority
+        if (nameA.startsWith(searchTerm) && !nameB.startsWith(searchTerm)) return -1;
+        if (nameB.startsWith(searchTerm) && !nameA.startsWith(searchTerm)) return 1;
+
+        // Contains gets third priority
+        if (nameA.includes(searchTerm) && !nameB.includes(searchTerm)) return -1;
+        if (nameB.includes(searchTerm) && !nameA.includes(searchTerm)) return 1;
+
+        // Alphabetical order for equal priority
+        return nameA.localeCompare(nameB);
+    });
+    return result.Items;
+};
+
 module.exports = {
     createProductV2,
     getProductV2,
     updateProductV2,
     deleteProductV2,
     getAllProductsV2,
+    searchProductsByName
 };

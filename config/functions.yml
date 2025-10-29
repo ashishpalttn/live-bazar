@@ -93,6 +93,9 @@ productV2Api:
     - http:
         path: products-v2
         method: get
+    - http:
+        path: search-products
+        method: get
 
 vendorProductApi:
   handler: src/handlers/vendorProduct2.handler
