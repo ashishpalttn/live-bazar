@@ -12,7 +12,7 @@ exports.handler = async (event) => {
                         "appType not found"
                     ))}
         }
-        if(appType  !=="VENDOR" || appType!=="CLIENT" ){
+        if(!(appType ==="VENDOR" || appType==="CLIENT" )){
             return{statusCode:400, body:JSON.stringify(getFailureResponseObject(
                         "Wrong appType"
                     ))} 

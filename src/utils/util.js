@@ -50,10 +50,55 @@ function filterFieldsByAppType(data, fieldsToRemove, appType) {
     return filterObj(data);
 }
 
+/**
+ * Generic error handler for API responses
+ * @param {Error|Object} error - The error object or message
+ * @returns {Object} { statusCode, body }
+ */
+function handleApiError(error) {
+    // Custom error code pattern
+    if (error && error.code === 'NOT_FOUND') {
+        const errorResponse = getFailureResponseObject(error.message || 'Resource not found', error.code);
+        return {
+            statusCode: 404,
+            body: JSON.stringify(errorResponse)
+        };
+    }
+    if (error && error.code === 'ALREADY_EXISTS') {
+        const errorResponse = getFailureResponseObject(error.message || 'Resource already exists', error.code);
+        return {
+            statusCode: 409,
+            body: JSON.stringify(errorResponse)
+        };
+    }
+    // Fallback to message string matching for legacy errors
+    if (error && error.message && error.message.includes('not found')) {
+        const errorResponse = getFailureResponseObject(error.message, 'ERR_NOT_FOUND');
+        return {
+            statusCode: 404,
+            body: JSON.stringify(errorResponse)
+        };
+    }
+    if (error && error.message && error.message.includes('already exists')) {
+        const errorResponse = getFailureResponseObject(error.message, 'ERR_ALREADY_EXISTS');
+        return {
+            statusCode: 409,
+            body: JSON.stringify(errorResponse)
+        };
+    }
+    // Default internal error
+    const errorResponse = getErrorResponseObject(error && error.message);
+    return {
+        statusCode: error && error.statusCode ? error.statusCode : 500,
+        body: JSON.stringify(errorResponse)
+    };
+}
+
 module.exports = {
     RESPONSE_OBJECT,
     getSuccessResponseObject,
     getFailureResponseObject,
     getErrorResponseObject,
-    filterFieldsByAppType
+    filterFieldsByAppType,
+    handleApiError
 };
