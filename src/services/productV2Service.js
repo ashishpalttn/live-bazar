@@ -5,6 +5,10 @@ const productV2Model = require('../models/productV2Model');
 const PRODUCTS_V2_TABLE = 'products-v2';
 
 const createProductV2 = async (productData) => {
+    // Generate a product_id if not provided
+    if (!productData.product_id) {
+        productData.product_id = uuidv4();
+    }
     const { error, value } = productV2Model.validate(productData, { abortEarly: false });
     if (error) {
         throw new Error(`Validation error: ${error.details.map((err) => err.message).join(', ')}`);

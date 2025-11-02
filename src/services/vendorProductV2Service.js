@@ -141,10 +141,49 @@ const deleteVendorProduct = async (vendor_id, product_id) => {
     }
 };
 
+const toggleVendorProductsActive = async (vendor_id, is_active) => {
+    const params = {
+        TableName: VENDOR_PRODUCT_TABLE,
+        KeyConditionExpression: 'vendor_id = :vendor_id',
+        ExpressionAttributeValues: {
+            ':vendor_id': vendor_id
+        }
+    };
+
+    const result = await dynamoClient.query(params).promise();
+    const products = result.Items;
+
+    if (!products || products.length === 0) {
+        throw new Error(`No products found for vendor_id: ${vendor_id}`);
+    }
+
+    const updatePromises = products.map((product) => {
+        const updateParams = {
+            TableName: VENDOR_PRODUCT_TABLE,
+            Key: {
+                vendor_id: product.vendor_id,
+                product_id: product.product_id
+            },
+            UpdateExpression: 'SET is_active = :is_active, updatedAt = :updatedAt',
+            ExpressionAttributeValues: {
+                ':is_active': is_active,
+                ':updatedAt': new Date().toISOString()
+            },
+            ReturnValues: 'ALL_NEW'
+        };
+
+        return dynamoClient.update(updateParams).promise();
+    });
+
+    const updatedProducts = await Promise.all(updatePromises);
+    return updatedProducts.map((product) => product.Attributes);
+};
+
 module.exports = {
     createVendorProduct,
     getVendorProduct,
     getAllVendorProducts,
     updateVendorProduct,
-    deleteVendorProduct
+    deleteVendorProduct,
+    toggleVendorProductsActive
 };

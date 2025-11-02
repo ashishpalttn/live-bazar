@@ -116,3 +116,6 @@ vendorProductApi:
     - http:
         path: vendorproducts/{vendorId}/product/{productId}
         method: delete
+    - http:
+        path: vendorproducts/{vendorId}/toggle-active
+        method: patch

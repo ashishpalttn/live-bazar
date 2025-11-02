@@ -24,6 +24,27 @@ exports.handler = async (event) => {
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
+        // Toggle active status for vendor products
+        if (httpMethod === 'PATCH' && pathParameters && pathParameters.vendorId && event.path.includes('toggle-active')) {
+            const vendor_id = pathParameters.vendorId;
+            const { is_active } = JSON.parse(body);
+
+            if (typeof is_active !== 'boolean') {
+                return {
+                    statusCode: 400,
+                    body: JSON.stringify(getFailureResponseObject('Invalid is_active value', 'ERR_INVALID_INPUT')),
+                };
+            }
+
+            try {
+                const result = await vendorProductService.toggleVendorProductsActive(vendor_id, is_active);
+                const responseObj = getSuccessResponseObject('Vendor products updated successfully', [{ result }]);
+                return { statusCode: 200, body: JSON.stringify(responseObj) };
+            } catch (err) {
+                return require('../utils/util').handleApiError(err);
+            }
+        }
+
         // Update vendor product
         if (httpMethod === 'PATCH') {
             const vendor_id = pathParameters.vendorId;
