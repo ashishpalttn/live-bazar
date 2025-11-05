@@ -7,10 +7,43 @@ exports.handler = async (event) => {
 
         // Create vendor product
         if (httpMethod === 'POST') {
-            const productData = JSON.parse(body);
-            const product = await vendorProductService.createVendorProduct(productData);
-            const responseObj = getSuccessResponseObject('Vendor product created successfully', [{ product }]);
-            return { statusCode: 201, body: JSON.stringify(responseObj) };
+            try {
+                const productData = JSON.parse(body);
+                const product = await vendorProductService.createVendorProduct(productData);
+                const responseObj = getSuccessResponseObject('Vendor product created successfully', [{ product }]);
+                return { statusCode: 201, body: JSON.stringify(responseObj) };
+            } catch (error) {
+                console.error('Error creating vendor product:', error);
+
+                // Handle validation errors explicitly
+                if (error.name === 'ValidationError') {
+                    return {
+                        statusCode: 400,
+                        body: JSON.stringify(getFailureResponseObject(error.message, 'ERR_VALIDATION')),
+                    };
+                }
+
+                // Handle duplicate composite key errors using standardized error name
+                if (error.name === 'DuplicateKeyError') {
+                    return {
+                        statusCode: 400,
+                        body: JSON.stringify(getFailureResponseObject('A vendor product with the same vendor_id and product_id already exists', 'ERR_DUPLICATE_KEY')),
+                    };
+                }
+
+                // Handle JSON parsing errors
+                if (error instanceof SyntaxError) {
+                    return {
+                        statusCode: 400,
+                        body: JSON.stringify(getFailureResponseObject('Invalid JSON format', 'ERR_INVALID_JSON')),
+                    };
+                }
+
+                return {
+                    statusCode: 500,
+                    body: JSON.stringify(getFailureResponseObject('Internal server error', 'ERR_INTERNAL_SERVER')),
+                };
+            }
         }
 
         // Get all products for a vendor

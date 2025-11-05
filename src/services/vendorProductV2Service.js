@@ -5,6 +5,11 @@ const vendorProductSchema = require('../models/vendorProductModel2');
 const VENDOR_PRODUCT_TABLE = process.env.DYNAMODB_VENDOR_PRODUCT_TABLE || 'vendor-products-v2';
 
 const createVendorProduct = async (productData) => {
+    // Generate a product_id if not provided
+    if (!productData.product_id) {
+        productData.product_id = uuidv4();
+    }
+
     const { error, value } = vendorProductSchema.validate(productData, { abortEarly: false });
     if (error) {
         throw new Error(`Validation error: ${error.details.map((err) => err.message).join(', ')}`);
@@ -35,7 +40,9 @@ const createVendorProduct = async (productData) => {
         return vendorProduct;
     } catch (error) {
         if (error.code === 'ConditionalCheckFailedException') {
-            throw new Error('A vendor product with this vendor_id and product_id already exists');
+            const duplicateKeyError = new Error('Duplicate composite key error');
+            duplicateKeyError.name = 'DuplicateKeyError';
+            throw duplicateKeyError;
         }
         throw error;
     }
