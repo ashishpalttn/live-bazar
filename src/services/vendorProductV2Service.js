@@ -20,13 +20,7 @@ const createVendorProduct = async (productData) => {
         throw new Error('Both vendor_id and product_id are required');
     }
 
-    const vendorProduct = {
-        ...value,
-        is_active: value.is_active === undefined ? true : value.is_active,
-        is_deleted: value.is_deleted === undefined ? false : value.is_deleted,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-    };
+    const vendorProduct = { ...value };
 
     const params = {
         TableName: VENDOR_PRODUCT_TABLE,

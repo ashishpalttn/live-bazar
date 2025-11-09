@@ -4,17 +4,17 @@ const Joi = require('joi');
 const vendorProductSchema = Joi.object({
     vendor_id: Joi.string().required(),
     product_id: Joi.string().required(),
-    product_name: Joi.string().required(), // Added mandatory product name
-    brand_name: Joi.string().required(), // Added mandatory sell price
-    image_url: Joi.string().optional(), // Added optional image URL
+    product_Name: Joi.string().required(),
+    brand_Name: Joi.string().required(),
+    image_url: Joi.array().items(Joi.string()).optional().default([]),
     sell_price: Joi.number().required(),
-    mrp: Joi.number().required(), // Added mandatory MRP
-    unit: Joi.number().required(), // Added mandatory unit
+    mrp: Joi.number().required(),
+    unit: Joi.string().required(),
     discount_percentage: Joi.number().optional(),
     is_active: Joi.boolean().optional().default(false),
     is_deleted: Joi.boolean().optional().default(false),
     quantity: Joi.number().required(),
-    createdAt: Joi.string().optional(),
-    updatedAt: Joi.string().optional() 
+    createdAt: Joi.string().optional().default(() => new Date().toISOString()),
+    updatedAt: Joi.string().optional().default(() => new Date().toISOString())
 });
 module.exports = vendorProductSchema;

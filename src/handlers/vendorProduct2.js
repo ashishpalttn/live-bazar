@@ -1,14 +1,28 @@
 const vendorProductService = require('../services/vendorProductV2Service');
+const {createProductV2} = require('../services/productV2Service')
 const { getSuccessResponseObject, getFailureResponseObject, getErrorResponseObject } = require('../utils/util');
 
 exports.handler = async (event) => {
     try {
-        const { httpMethod, pathParameters, body } = event;
+        const { queryStringParameters, httpMethod, pathParameters, body } = event;
 
         // Create vendor product
         if (httpMethod === 'POST') {
+
             try {
                 const productData = JSON.parse(body);
+
+                // Sanitize productData for createProductV2
+                const { vendor_id, sell_price, quantity, discount_percentage, is_active, ...productDataForCreateProduct } = productData;
+
+                // Check if a new product needs to be created
+                if (queryStringParameters && queryStringParameters.isNewProduct) {
+                    const product = await createProductV2(productDataForCreateProduct);
+                    if (!productData.product_id) {
+                        productData.product_id = product.product_id;
+                    }
+                }
+
                 const product = await vendorProductService.createVendorProduct(productData);
                 const responseObj = getSuccessResponseObject('Vendor product created successfully', [{ product }]);
                 return { statusCode: 201, body: JSON.stringify(responseObj) };
@@ -31,7 +45,7 @@ exports.handler = async (event) => {
                     };
                 }
 
-                             // Handle validation errors explicitly
+                // Handle validation errors explicitly
                 if (error.name === 'Error') {
                     return {
                         statusCode: 400,
