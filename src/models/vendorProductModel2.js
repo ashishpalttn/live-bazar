@@ -8,6 +8,8 @@ const vendorProductSchema = Joi.object({
     brand_name: Joi.string().required(), // Added mandatory sell price
     image_url: Joi.string().optional(), // Added optional image URL
     sell_price: Joi.number().required(),
+    mrp: Joi.number().required(), // Added mandatory MRP
+    unit: Joi.number().required(), // Added mandatory unit
     discount_percentage: Joi.number().optional(),
     is_active: Joi.boolean().optional().default(false),
     is_deleted: Joi.boolean().optional().default(false),

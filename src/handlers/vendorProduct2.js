@@ -15,14 +15,6 @@ exports.handler = async (event) => {
             } catch (error) {
                 console.error('Error creating vendor product:', error);
 
-                // Handle validation errors explicitly
-                if (error.name === 'ValidationError') {
-                    return {
-                        statusCode: 400,
-                        body: JSON.stringify(getFailureResponseObject(error.message, 'ERR_VALIDATION')),
-                    };
-                }
-
                 // Handle duplicate composite key errors using standardized error name
                 if (error.name === 'DuplicateKeyError') {
                     return {
@@ -36,6 +28,14 @@ exports.handler = async (event) => {
                     return {
                         statusCode: 400,
                         body: JSON.stringify(getFailureResponseObject('Invalid JSON format', 'ERR_INVALID_JSON')),
+                    };
+                }
+
+                             // Handle validation errors explicitly
+                if (error.name === 'Error') {
+                    return {
+                        statusCode: 400,
+                        body: JSON.stringify(getFailureResponseObject(error.message, 'ERR_VALIDATION')),
                     };
                 }
 
