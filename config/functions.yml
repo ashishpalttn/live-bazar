@@ -102,7 +102,7 @@ vendorProductApi:
   timeout: 300
   events:
     - http:
-        path: vendorproducts/{vendorId}/product
+        path: vendorproducts/product
         method: post
     - http:
         path: vendorproducts/{vendorId}/products

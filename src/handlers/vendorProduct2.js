@@ -10,13 +10,13 @@ exports.handler = async (event) => {
         if (httpMethod === 'POST') {
 
             try {
-                const productData = JSON.parse(body);
+                const { isNewProduct, ...productData } = JSON.parse(body);
 
                 // Sanitize productData for createProductV2
                 const { vendor_id, sell_price, quantity, discount_percentage, is_active, ...productDataForCreateProduct } = productData;
 
                 // Check if a new product needs to be created
-                if (queryStringParameters && queryStringParameters.isNewProduct) {
+                if (isNewProduct) {
                     const product = await createProductV2(productDataForCreateProduct);
                     if (!productData.product_id) {
                         productData.product_id = product.product_id;
