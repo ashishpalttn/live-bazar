@@ -15,6 +15,7 @@ const vendorProductSchema = Joi.object({
     is_deleted: Joi.boolean().optional().default(false),
     quantity: Joi.number().required(),
     createdAt: Joi.string().optional().default(() => new Date().toISOString()),
-    updatedAt: Joi.string().optional().default(() => new Date().toISOString())
+    updatedAt: Joi.string().optional().default(() => new Date().toISOString()),
+    description: Joi.string().optional()
 });
 module.exports = vendorProductSchema;
