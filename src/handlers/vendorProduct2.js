@@ -17,9 +17,11 @@ exports.handler = async (event) => {
 
                 // Check if a new product needs to be created
                 if (isNewProduct) {
+                    productDataForCreateProduct.isVerified = false;
                     const product = await createProductV2(productDataForCreateProduct);
                     if (!productData.product_id) {
                         productData.product_id = product.product_id;
+
                     }
                 }
 

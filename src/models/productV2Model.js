@@ -11,7 +11,8 @@ const productV2Schema = Joi.object({
     is_verified: Joi.boolean().optional().default(false),
     unit: Joi.string().required(),
     createdAt: Joi.string().optional(),
-    updatedAt: Joi.string().optional()
+    updatedAt: Joi.string().optional(),
+    isVerified: Joi.boolean().optional().default(false)
 });
 
 module.exports = productV2Schema;
