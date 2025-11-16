@@ -24,7 +24,10 @@ exports.handler = async (event) => {
 
                     }
                 }
-
+                else{
+                    productData.isVerified = true;
+                }
+                  
                 const product = await vendorProductService.createVendorProduct(productData);
                 const responseObj = getSuccessResponseObject('Vendor product created successfully', [{ product }]);
                 return { statusCode: 201, body: JSON.stringify(responseObj) };
