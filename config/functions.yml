@@ -119,3 +119,23 @@ vendorProductApi:
     - http:
         path: vendorproducts/{vendorId}/toggle-active
         method: patch
+
+billApi:
+  handler: src/handlers/bill.handler
+  timeout: 300
+  events:
+    - http:
+        path: bill
+        method: post
+    - http:
+        path: bill/{id}
+        method: get
+    - http:
+        path: bill/{id}
+        method: patch
+    - http:
+        path: bill/{id}
+        method: delete
+    - http:
+        path: bills
+        method: get
