@@ -86,10 +86,27 @@ const deleteBill = async (bill_id) => {
     return { bill_id };
 };
 
+const findBillsByVendorId = async (vendor_id) => {
+    const params = {
+        TableName: BILLS_TABLE,
+        FilterExpression: '#vendor_id = :vendor_id',
+        ExpressionAttributeNames: {
+            '#vendor_id': 'vendor_id'
+        },
+        ExpressionAttributeValues: {
+            ':vendor_id': vendor_id
+        }
+    };
+
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
 module.exports = {
     createBill,
     getBill,
     getAllBills,
     updateBill,
-    deleteBill
+    deleteBill,
+    findBillsByVendorId
 };

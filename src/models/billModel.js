@@ -16,7 +16,8 @@ const billSchema = Joi.object({
     taxes: Joi.number().optional(),
     total: Joi.number().required(),
     createdAt: Joi.string().optional(),
-    updatedAt: Joi.string().optional()
+    updatedAt: Joi.string().optional(),
+    vendor_id: Joi.string().required()
 });
 
 module.exports = billSchema;

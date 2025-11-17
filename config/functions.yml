@@ -139,3 +139,6 @@ billApi:
     - http:
         path: bills
         method: get
+    - http:
+        path: bills/vendor/{vendor_id}
+        method: get

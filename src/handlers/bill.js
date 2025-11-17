@@ -19,6 +19,13 @@ exports.handler = async (event) => {
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
+        if (httpMethod === 'GET' && pathParameters && pathParameters.vendor_id) {
+            const vendor_id = pathParameters.vendor_id;
+            const bills = await billService.findBillsByVendorId(vendor_id);
+            const responseObj = getSuccessResponseObject('Bills fetched successfully by vendor_id', [{ bills }]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
         if (httpMethod === 'GET') {
             const bills = await billService.getAllBills();
             const responseObj = getSuccessResponseObject('Bills fetched successfully', [{ bills }]);
