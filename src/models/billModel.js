@@ -9,12 +9,12 @@ const billSchema = Joi.object({
     phoneNo: Joi.string().optional().allow(''),
     items: Joi.array().items(Joi.object({
         item_name: Joi.string().required(),
-        quantity: Joi.number().required(),
-        price: Joi.number().required()
+        quantity: Joi.string().optional().allow(''),
+        price: Joi.string().required().allow('')
     })).required(),
-    subtotal: Joi.number().required(),
-    taxes: Joi.number().optional(),
-    total: Joi.number().required(),
+    subtotal: Joi.string().required(),
+    taxes: Joi.string().optional().allow(''),
+    total: Joi.string().optional().allow(''),
     createdAt: Joi.string().optional(),
     updatedAt: Joi.string().optional(),
     vendor_id: Joi.string().required()

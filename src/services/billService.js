@@ -52,10 +52,11 @@ const getAllBills = async () => {
 };
 
 const updateBill = async (bill_id, updates) => {
-    const { error } = billModel.validate(updates, { abortEarly: false });
-    if (error) {
-        throw new Error(`Validation error: ${error.details.map((err) => err.message).join(', ')}`);
-    }
+    // Fetch the existing bill
+    const existingBill = await getBill(bill_id);
+
+    // Merge updates with the existing bill
+    const updatedBillData = { ...existingBill, ...updates, updatedAt: new Date().toISOString() };
 
     const params = {
         TableName: BILLS_TABLE,
