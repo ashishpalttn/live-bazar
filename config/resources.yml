@@ -105,3 +105,19 @@ Resources:
         - AttributeName: bill_id
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
+
+  vendorCustomerMap:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: vendor_customer_map
+      AttributeDefinitions:
+        - AttributeName: vendor_id
+          AttributeType: S
+        - AttributeName: customer_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: vendor_id
+          KeyType: HASH
+        - AttributeName: customer_id
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
