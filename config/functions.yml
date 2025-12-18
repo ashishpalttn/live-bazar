@@ -142,3 +142,23 @@ billApi:
     - http:
         path: bills/vendor/{vendor_id}
         method: get
+
+vendorCustomerApi:
+  handler: src/handlers/vendorCustomer.handler
+  timeout: 300
+  events:
+    - http:
+        path: vendor-customer-map/customers/{vendor_id}
+        method: get
+    - http:
+        path: vendor-customer-map/vendors/{customer_id}
+        method: get
+    - http:
+        path: vendor-customer-map
+        method: post
+    - http:
+        path: vendor-customer-map/{vendor_id}/{customer_id}
+        method: patch
+    - http:
+        path: vendor-customer-map/{vendor_id}/{customer_id}
+        method: delete
