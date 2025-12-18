@@ -115,6 +115,8 @@ Resources:
           AttributeType: S
         - AttributeName: customer_id
           AttributeType: S
+        - AttributeName: mobileNumber
+          AttributeType: S
       KeySchema:
         - AttributeName: vendor_id
           KeyType: HASH
