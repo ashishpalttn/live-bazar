@@ -21,6 +21,13 @@ exports.handler = async (event) => {
 
         if (httpMethod === 'POST') {
             const data = JSON.parse(event.body);
+
+            // Generate a new customer_id if not provided
+            if (!data.customer_id) {
+                const { v4: uuidv4 } = require('uuid');
+                data.customer_id = uuidv4();
+            }
+
             const newEntry = await vendorCustomerService.createVendorCustomer(data);
             const responseObj = getSuccessResponseObject('Vendor-Customer mapping created successfully', [{ newEntry }]);
             return { statusCode: 201, body: JSON.stringify(responseObj) };
