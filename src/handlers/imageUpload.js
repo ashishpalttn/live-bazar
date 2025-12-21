@@ -31,7 +31,8 @@ async function imageUploadHandler(event) {
                     Body: buffer,
                     ContentType: contentType,
                     ContentDisposition: 'inline',
-                    MetadataDirective: 'REPLACE'
+                    MetadataDirective: 'REPLACE',
+                    ACL: 'public-read' // Ensure the object is publicly accessible
                 };
                 uploads.push(
                     s3.upload(params).promise()
