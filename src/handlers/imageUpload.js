@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const Busboy = require('busboy');
+const mime = require('mime-types'); // Add this at the top of the file
 const { getSuccessResponseObject, getFailureResponseObject } = require('../utils/util');
 
 const s3 = new AWS.S3();
@@ -21,10 +22,11 @@ async function imageUploadHandler(event) {
             file.on('data', (data) => buffers.push(data));
             file.on('end', () => {
                 const buffer = Buffer.concat(buffers);
-                let contentType = mimetype;
+                let contentType = mimetype || mime.lookup(actualFilename); // Dynamically determine MIME type
                 if (!contentType || !/^image\//.test(contentType)) {
-                    contentType = 'image/jpeg';
+                    contentType = 'image/jpeg'; // Default to image/jpeg if MIME type is invalid
                 }
+
                 const params = {
                     Bucket: BUCKET_NAME,
                     Key: actualFilename,
