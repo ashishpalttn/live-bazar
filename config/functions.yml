@@ -142,6 +142,9 @@ billApi:
     - http:
         path: bills/vendor/{vendor_id}
         method: get
+    - http:
+        path: bills/phone/{phoneNo}
+        method: get
 
 vendorCustomerApi:
   handler: src/handlers/vendorCustomer.handler

@@ -26,6 +26,13 @@ exports.handler = async (event) => {
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
+        if (httpMethod === 'GET' && pathParameters && pathParameters.phoneNo) {
+            const phoneNo = pathParameters.phoneNo;
+            const bills = await billService.findBillsByPhoneNo(phoneNo);
+            const responseObj = getSuccessResponseObject('Bills fetched successfully by phone number', [{ bills }]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
         if (httpMethod === 'GET') {
             const bills = await billService.getAllBills();
             const responseObj = getSuccessResponseObject('Bills fetched successfully', [{ bills }]);

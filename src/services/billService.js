@@ -103,11 +103,28 @@ const findBillsByVendorId = async (vendor_id) => {
     return result.Items;
 };
 
+const findBillsByPhoneNo = async (phoneNo) => {
+    const params = {
+        TableName: BILLS_TABLE,
+        FilterExpression: '#phoneNo = :phoneNo',
+        ExpressionAttributeNames: {
+            '#phoneNo': 'phoneNo'
+        },
+        ExpressionAttributeValues: {
+            ':phoneNo': phoneNo
+        }
+    };
+
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
 module.exports = {
     createBill,
     getBill,
     getAllBills,
     updateBill,
     deleteBill,
-    findBillsByVendorId
+    findBillsByVendorId,
+    findBillsByPhoneNo
 };
