@@ -8,13 +8,14 @@ const BUCKET_NAME = process.env.IMAGE_BUCKET || 'areafi-image-bucket';
 
 async function imageUploadHandler(event) {
     try {
+        console.log('Event received:', JSON.stringify(event));
+        console.log('Event body encoding:', event.isBase64Encoded ? 'base64' : 'utf8');
+        console.log('Event body size:', event.body ? event.body.length : 'No body');
+
         const contentType = event.headers['content-type'] || event.headers['Content-Type'];
         const busboy = Busboy({ headers: { 'content-type': contentType } });
         const results = [];
         const uploads = [];
-
-        console.log('Event body encoding:', event.isBase64Encoded ? 'base64' : 'utf8');
-        console.log('Event body size:', event.body.length);
 
         busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
             console.log('Processing file:', filename);
@@ -79,9 +80,10 @@ async function imageUploadHandler(event) {
             body: JSON.stringify(getSuccessResponseObject('Files processed', results))
         };
     } catch (error) {
+        console.error('Error occurred:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify(getFailureResponseObject(error.message, 'ERR_IMAGE_UPLOAD_FAILED'))
+            body: JSON.stringify({ message: 'Internal Server Error', error: error.message }),
         };
     }
 }
