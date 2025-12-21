@@ -13,15 +13,27 @@ async function imageUploadHandler(event) {
         const results = [];
         const uploads = [];
 
+        console.log('Event body encoding:', event.isBase64Encoded ? 'base64' : 'utf8');
+        console.log('Event body size:', event.body.length);
+
         busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+            console.log('Processing file:', filename);
+            console.log('File encoding:', encoding);
+            console.log('File mimetype:', mimetype);
+
             let actualFilename = filename;
             if (filename && typeof filename === 'object' && filename.filename) {
                 actualFilename = filename.filename;
             }
             const buffers = [];
-            file.on('data', (data) => buffers.push(data));
+            file.on('data', (data) => {
+                console.log('Received data chunk of size:', data.length);
+                buffers.push(data);
+            });
             file.on('end', () => {
                 const buffer = Buffer.concat(buffers);
+                console.log('Final buffer size:', buffer.length);
+
                 let contentType = mimetype || mime.lookup(actualFilename); // Dynamically determine MIME type
                 if (!contentType || !/^image\//.test(contentType)) {
                     contentType = 'image/jpeg'; // Default to image/jpeg if MIME type is invalid
