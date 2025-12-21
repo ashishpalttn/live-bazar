@@ -6,7 +6,7 @@
         "start": "node src/server.js",
         "start:offline": "serverless offline --stage dev --config config/serverless.yml",
         "test": "jest --coverage",
-    "debug:offline": "node --inspect-brk=9229 ./node_modules/.bin/serverless offline --stage dev",
+        "debug:offline": "node --inspect-brk=9229 ./node_modules/.bin/serverless offline --stage dev",
         "debug": "node --inspect src/server.js"
     },
     "dependencies": {
@@ -16,6 +16,7 @@
         "busboy": "^1.6.0",
         "express": "^4.21.2",
         "joi": "^17.13.3",
+        "mime-types": "^3.0.2",
         "multer": "^2.0.2",
         "multer-s3": "^3.0.1",
         "uuid": "^9.0.0"
