@@ -66,7 +66,12 @@ async function imageUploadHandler(event) {
                 resolve();
             });
             busboy.on('error', reject);
-            busboy.end(Buffer.from(event.body, event.isBase64Encoded ? 'base64' : 'utf8'));
+
+            const bodyBuffer = event.isBase64Encoded
+                ? Buffer.from(event.body, 'base64') // Decode base64 body
+                : Buffer.from(event.body, 'utf8'); // Handle utf8 body
+
+            busboy.end(bodyBuffer); // Pass the decoded buffer to Busboy
         });
 
         return {
