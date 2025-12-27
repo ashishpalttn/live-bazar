@@ -3,7 +3,22 @@ const { getSuccessResponseObject, getFailureResponseObject } = require('../utils
 
 exports.handler = async (event) => {
     try {
-        const { httpMethod, pathParameters } = event;
+        const { httpMethod, pathParameters, queryStringParameters } = event;
+
+        if (httpMethod === 'GET' && queryStringParameters && queryStringParameters.mobile_no) {
+            const mobile_no = queryStringParameters.mobile_no;
+            const customer = await vendorCustomerService.findCustomerByMobileNo(mobile_no);
+
+            if (customer) {
+                const responseObj = getSuccessResponseObject('Customer fetched successfully', [{ customer }]);
+                return { statusCode: 200, body: JSON.stringify(responseObj) };
+            } else {
+                return { 
+                    statusCode: 404, 
+                    body: JSON.stringify(getFailureResponseObject('Customer not found', 'ERR_CUSTOMER_NOT_FOUND')) 
+                };
+            }
+        }
 
         if (httpMethod === 'GET' && pathParameters && pathParameters.vendor_id) {
             const vendor_id = pathParameters.vendor_id;

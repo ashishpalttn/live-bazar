@@ -165,3 +165,10 @@ vendorCustomerApi:
     - http:
         path: vendor-customer-map/{vendor_id}/{customer_id}
         method: delete
+    - http:
+        path: vendor-customer-map/search
+        method: get
+        request:
+          parameters:
+            querystrings:
+              mobile_no: true

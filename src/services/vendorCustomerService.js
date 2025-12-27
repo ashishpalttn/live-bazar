@@ -83,10 +83,25 @@ const deleteVendorCustomer = async (vendor_id, customer_id) => {
     await dynamoClient.delete(params).promise();
 };
 
+const findCustomerByMobileNo = async (mobile_no) => {
+    const params = {
+        TableName: VENDOR_CUSTOMER_TABLE,
+        IndexName: 'mobileNumber-index',
+        KeyConditionExpression: 'mobileNumber = :mobile_no',
+        ExpressionAttributeValues: {
+            ':mobile_no': mobile_no
+        }
+    };
+
+    const result = await dynamoClient.query(params).promise();
+    return result.Items.length > 0 ? result.Items[0] : null;
+};
+
 module.exports = {
     findCustomersByVendorId,
     findVendorsByCustomerId,
     createVendorCustomer,
     updateVendorCustomer,
-    deleteVendorCustomer
+    deleteVendorCustomer,
+    findCustomerByMobileNo
 };
