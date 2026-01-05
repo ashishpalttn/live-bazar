@@ -172,3 +172,23 @@ vendorCustomerApi:
           parameters:
             querystrings:
               mobile_no: true
+
+orderApi:
+  handler: src/handlers/order.handler
+  timeout: 300
+  events:
+    - http:
+        path: order
+        method: post
+    - http:
+        path: order/{id}
+        method: get
+    - http:
+        path: orders
+        method: get
+    - http:
+        path: order/{id}
+        method: patch
+    - http:
+        path: order/{id}
+        method: delete

@@ -130,3 +130,15 @@ Resources:
               KeyType: HASH
           Projection:
             ProjectionType: ALL
+
+  orders:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: orders
+      AttributeDefinitions:
+        - AttributeName: order_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: order_id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
