@@ -192,3 +192,6 @@ orderApi:
     - http:
         path: order/{id}
         method: delete
+    - http:
+        path: orders/vendor/{vendor_id}
+        method: get

@@ -13,7 +13,9 @@ const createOrder = async (orderData) => {
     const order = {
         ...value,
         order_id: value.order_id || uuidv4(),
-        created_on: new Date().toISOString()
+        created_on: new Date().toISOString(),
+        vendorId: value.vendorDetails.vendorId, // Flatten vendorId for easier querying
+        customerId: value.customerDetails.customerId // Flatten customerId for easier querying
     };
 
     const params = {
@@ -72,10 +74,27 @@ const getAllOrders = async () => {
     return result.Items;
 };
 
+const getOrdersByVendorId = async (vendor_id) => {
+    const params = {
+        TableName: ORDERS_TABLE,
+        FilterExpression: '#vendorId = :vendor_id',
+        ExpressionAttributeNames: {
+            '#vendorId': 'vendorId' // Updated to use the flattened vendorId field
+        },
+        ExpressionAttributeValues: {
+            ':vendor_id': vendor_id
+        }
+    };
+
+    const result = await dynamoClient.scan(params).promise();
+    return result.Items;
+};
+
 module.exports = {
     createOrder,
     getOrder,
     updateOrder,
     deleteOrder,
-    getAllOrders
+    getAllOrders,
+    getOrdersByVendorId
 };

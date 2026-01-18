@@ -7,6 +7,13 @@ exports.handler = async (event) => {
 
         if (httpMethod === 'POST') {
             const orderData = JSON.parse(body);
+
+            // Generate and add an order ID to the payload if it is missing
+            if (!orderData.order_id) {
+                const { v4: uuidv4 } = require('uuid');
+                orderData.order_id = uuidv4();
+            }
+
             const order = await orderService.createOrder(orderData);
             const responseObj = getSuccessResponseObject('Order created successfully', [{ order }]);
             return { statusCode: 201, body: JSON.stringify(responseObj) };
@@ -16,6 +23,13 @@ exports.handler = async (event) => {
             const order_id = pathParameters.id;
             const order = await orderService.getOrder(order_id);
             const responseObj = getSuccessResponseObject('Order fetched successfully', [{ order }]);
+            return { statusCode: 200, body: JSON.stringify(responseObj) };
+        }
+
+        if (httpMethod === 'GET' && pathParameters && pathParameters.vendor_id) {
+            const vendor_id = pathParameters.vendor_id;
+            const orders = await orderService.getOrdersByVendorId(vendor_id);
+            const responseObj = getSuccessResponseObject('Orders fetched successfully by vendor_id', [{ orders }]);
             return { statusCode: 200, body: JSON.stringify(responseObj) };
         }
 
