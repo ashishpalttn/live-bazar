@@ -38,7 +38,7 @@ const orderSchema = Joi.object({
     customerNote: Joi.string().optional(),
     rating: Joi.number().optional(),
     feedback: Joi.string().optional(),
-    orderStatus: Joi.string().valid('created', 'pickedUp', 'delivered').required(),
+    orderStatus: Joi.string().valid('created', 'inProgress', 'completed').required(),
     isDeleted: Joi.boolean().default(false)
 });
 
