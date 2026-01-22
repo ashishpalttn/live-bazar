@@ -31,7 +31,7 @@ const vendorSchema = Joi.object({
     licenseCertificate: Joi.string().optional().allow('').label('licenseCertificate'),
     gstNumber: Joi.string().optional().allow('').label('gstNumber'),
     storeGeolocation: Joi.string().required().label('storeGeolocation'),
-    
+    isActive: Joi.boolean().optional().label('isActive'),
 });
 
 module.exports = vendorSchema;
