@@ -12,6 +12,18 @@ provider:
     DYNAMODB_PRODUCTS_TABLE: products
     DYNAMODB_PRODUCTS_V2_TABLE: products-v2
     DYNAMODB_VENDOR_PRODUCT_TABLE: vendor-products-v2
+    IMAGE_BUCKET: areafi-image-bucket
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:PutObjectAcl
+          Resource: "arn:aws:s3:::areafi-image-bucket/*"
+  apiGateway:
+    binaryMediaTypes:
+      - 'multipart/form-data'
 
 custom:
   serverless-offline:

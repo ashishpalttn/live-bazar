@@ -72,7 +72,8 @@ imageUpload:
         path: upload-image
         method: post
         cors: true
-        # For multipart/form-data support, use serverless-express or middy
+        request:
+          contentHandling: CONVERT_TO_BINARY
 
 productV2Api:
   handler: src/handlers/productV2.handler
